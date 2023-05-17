@@ -145,7 +145,7 @@ useHead({
       <div
         class="header rounded-box flex flex-col gap-4 border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong lg:flex-row"
       >
-        <div class="dropdown-bottom form-control dropdown relative mb-4 h-full w-1/2 items-end">
+        <div class="dropdown-bottom dropdown form-control relative mb-4 h-full w-1/2 items-end">
           <label class="label w-full text-center">
             <span class="label-text text-dark-strong dark:text-light-medium">Etapa</span>
           </label>
@@ -233,7 +233,7 @@ useHead({
     <!-- Cover -->
 
     <div
-      class="relative mb-8 h-[200px] rounded-[20px] bg-white shadow-lg lg:print:h-[200px] lg:print:w-screen"
+      class="relative mb-8 h-[235px] rounded-[20px] bg-white shadow-lg lg:print:h-[235px] lg:print:w-screen"
       :class="{ hidden: user }"
     >
       <picture>
