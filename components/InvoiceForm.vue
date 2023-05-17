@@ -47,7 +47,16 @@ const invoiceObject = reactive<InvoiceDraft>({
   paymentDueDate: '',
   paymentType: 'Contado',
   invoiceItems: [
-    { itemId: uid(2), itemName: '', condition: 'N/A', qty: 1, partNo: '', price: 0, total: 0 },
+    {
+      itemId: uid(2),
+      itemName: '',
+      itemDescription: '',
+      condition: 'N/A',
+      qty: 1,
+      partNo: '',
+      price: 0,
+      total: 0,
+    },
   ],
   status: 'Borrador',
 });
@@ -162,6 +171,7 @@ function addNewInvoiceItem() {
   invoiceObject.invoiceItems.push({
     itemId: uid(2),
     itemName: '',
+    itemDescription: '',
     condition: 'N/A',
     qty: 1,
     partNo: '',
@@ -199,17 +209,6 @@ function toggleModal() {
 }
 
 const errorBorder = computed(() => (v$.value.date.$error ? colors.red[500] : colors.gray[300]));
-
-// const uploadInvoice = async () => {
-//   const { newInvoice } = await useInvoice();
-//   await newInvoice({
-//     ...invoiceObject,
-//     invId: invoiceObject.invId.toString(),
-//     invoiceSubtotal: invoiceSubtotal.value,
-//     invoiceTax: invoiceTax.value,
-//     invoiceTotal: invoiceTotal.value,
-//   });
-// };
 
 async function uploadInvoice() {
   const { newInvoice } = await useInvoice();
@@ -256,7 +255,7 @@ function discardInvoice() {
 
 <template>
   <div
-    class="container card relative h-full border border-light-strong bg-white p-4 transition-all dark:border-dark-medium dark:bg-dark-strong lg:min-w-min lg:max-w-3xl"
+    class="container card relative h-full border border-light-strong bg-white p-4 transition-all dark:border-dark-medium dark:bg-dark-strong lg:w-full lg:max-w-4xl"
   >
     <form @submit.prevent="onSubmit" class="scrollbar-form relative w-full">
       <h1
@@ -612,8 +611,8 @@ function discardInvoice() {
                 <tr
                   class="mb-4 flex w-full gap-4 text-left text-dark-medium dark:text-light-medium"
                 >
-                  <th class="item-name w-4/12">Descripción</th>
-                  <th class="w-3/12">Condición</th>
+                  <th class="item-name w-3/12">Nombre</th>
+                  <th class="w-4/12">Descripción</th>
                   <th class="qty w-1/12">Ctd</th>
                   <th class="price w-2/12">Precio</th>
                   <th class="total w-2/12 text-center">Total</th>
@@ -630,7 +629,7 @@ function discardInvoice() {
                   v-for="item in invoiceObject.invoiceItems"
                   :key="item.itemId"
                 >
-                  <td class="w-4/12">
+                  <td class="w-3/12">
                     <div class="form-control">
                       <input
                         class="input w-full bg-light-medium focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
@@ -640,10 +639,18 @@ function discardInvoice() {
                       />
                     </div>
                   </td>
-                  <td class="w-3/12">
-                    <select
+                  <td class="w-4/12">
+                    <div class="form-control">
+                      <input
+                        class="input w-full bg-light-medium focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
+                        type="text"
+                        v-model.trim="item.itemDescription"
+                        placeholder="Escribe aqui..."
+                      />
+                    </div>
+                    <!-- <select
                       class="input-primary input w-full bg-light-medium"
-                      v-model="item.condition"
+                      v-model="item.itemDescription"
                       name="condition"
                       id="condition"
                     >
@@ -653,7 +660,7 @@ function discardInvoice() {
                       <option value="Refurbished" class="dark:text-light-strong">
                         Refurbished
                       </option>
-                    </select>
+                    </select> -->
                   </td>
                   <td class="w-1/12">
                     <input
@@ -729,7 +736,7 @@ function discardInvoice() {
                       <div class="form-control">
                         <label class="input-group">
                           <span
-                            class="w-32 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
+                            class="w-36 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
                             >Nombre</span
                           >
                           <input
@@ -741,11 +748,26 @@ function discardInvoice() {
                         </label>
                       </div>
                       <div class="form-control">
+                        <label class="input-group">
+                          <span
+                            class="w-36 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
+                            >Descripción</span
+                          >
+                          <input
+                            type="text"
+                            placeholder="Descripción del artículo"
+                            class="input-bordered input w-full dark:border-dark-strong"
+                            v-model.trim="item.itemDescription"
+                          />
+                        </label>
+                      </div>
+                      <!-- <div class="form-control">
                         <label class="input-group w-full"
                           ><span
                             class="w-32 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
                             >Condición
                           </span>
+
                           <select class="input-bordered input w-full" v-model="item.condition">
                             <option value="N/A" class="dark:text-light-strong">N/A</option>
                             <option value="Nuevo" class="dark:text-light-strong">Nuevo</option>
@@ -755,11 +777,11 @@ function discardInvoice() {
                             </option>
                           </select>
                         </label>
-                      </div>
+                      </div> -->
                       <div class="form-control">
                         <label class="input-group">
                           <span
-                            class="w-32 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
+                            class="w-36 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
                             >Cantidad</span
                           >
                           <input
@@ -772,7 +794,7 @@ function discardInvoice() {
                       <div class="form-control">
                         <label class="input-group">
                           <span
-                            class="w-32 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
+                            class="w-36 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
                             >Precio $</span
                           >
                           <input

@@ -407,11 +407,11 @@ useHead({
           <div class="w-72 print:w-7/12 lg:basis-5/12">
             <h5 class="w-full py-2 font-bold text-primary dark:text-dark-primary">Descripción</h5>
           </div>
-          <h5
+          <!-- <h5
             class="py-2 text-center font-bold text-primary dark:text-dark-primary print:w-1/12 print:basis-1/12 lg:basis-[10%]"
           >
             Condición
-          </h5>
+          </h5> -->
           <h5
             class="py-2 text-center font-bold text-primary dark:text-dark-primary print:w-1/12 lg:basis-1/12"
           >
@@ -436,18 +436,24 @@ useHead({
         >
           <div class="w-72 print:w-7/12 lg:basis-5/12">
             <p
-              class="w-full overflow-x-hidden py-2 text-left text-dark-strong dark:text-light-strong print:text-[10px]"
+              class="w-full overflow-x-hidden pt-2 text-left text-dark-strong dark:text-light-strong print:text-[10px]"
             >
               <!-- Nombre del item -->
               {{ item.itemName || 'Artículo sin descripcion' }}
             </p>
+            <p
+              class="w-full overflow-x-hidden pb-2 text-left italic text-dark-primary dark:text-light-primary print:text-[10px]"
+            >
+              <!-- Nombre del item -->
+              {{ item.itemDescription || 'Artículo sin descripcin' }}
+            </p>
           </div>
-          <p
+          <!-- <p
             class="py-2 text-center text-dark-strong dark:text-light-strong print:w-1/12 print:basis-1/12 print:text-[10px] lg:basis-[10%]"
           >
-            <!-- Condicion -->
+            
             {{ item.condition }}
-          </p>
+          </p> -->
           <p
             class="py-2 text-center text-dark-strong dark:text-light-strong print:w-1/12 lg:basis-1/12"
           >
