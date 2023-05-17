@@ -141,7 +141,7 @@ const rules = computed(() => {
     paymentTerms: { minValue: helpers.withMessage('Este campo es obligatorio', minValue(1)) },
     paymentType: { required: helpers.withMessage('Este campo es obligatorio', required) },
     notes: {
-      maxLength: helpers.withMessage('Solo se permite hasta 255 caracteres', maxLength(255)),
+      maxLength: helpers.withMessage('Solo se permite hasta 2500 caracteres', maxLength(2500)),
     },
   };
 });
