@@ -400,7 +400,7 @@ useHead({
 
       <!-- Items table -->
       <section
-        class="rounded-box relative mt-4 hidden max-h-[240px] min-h-[340px] overflow-x-auto border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong print:block print:border print:border-light-strong print:shadow-none lg:block"
+        class="rounded-box relative mt-4 hidden max-h-[300px] min-h-[300px] overflow-x-auto border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong print:block print:border print:border-light-strong print:shadow-none lg:block"
       >
         <div
           class="mt-2 flex w-[150vw] justify-between gap-2 px-4 text-[10px] print:w-full lg:w-full lg:justify-between lg:gap-2 lg:px-8"
@@ -546,14 +546,21 @@ useHead({
             <h3 class="mb-2 w-fit text-primary dark:text-dark-primary print:text-xs">
               Condiciones del servicio
             </h3>
-            <p
+            <ul
               class="w-[50ch] text-[8px] italic text-dark-strong dark:text-light-strong print:w-full print:text-[6px]"
             >
-              AGRADECIENDO SU AMABLE PREFERENCIA NOS ES GRATO SOMETER A SU CONSIDERACION NUESTRA
-              COTIZACION DE ACUERDO A SU REQUERIMIENTO, ESPERANDO SEA SATISFACTORIA A SUS
-              NECESIDADES, LOS PRECIOS MENCIONADOS ESTAN SUJETOS A ALTERACIONES. POR LO ANTERIOR,
-              QUEDAMOS A SUS ORDENES PARA CUALQUIER DUDA O ACLARACION AL RESPECTO.
-            </p>
+              <li>- Precio en pesos mexicanos (mxn)</li>
+              <li>- Horarios de atención: Lunes a viernes de 9 am a 7pm - Sábados de 9am a 1pm</li>
+              <li>- Al requerir factura se incluye IVA</li>
+              <li>- No hay devoluciones</li>
+              <li>
+                - Toda solicitud de diseño, producción de vídeo, edición web, fotografía, etc. Se
+                pide con un mínimo de 72 horas de anticipación (sujeto a disponibilidad)
+              </li>
+              <li class="font-bold text-accent dark:text-accent/50">
+                ¡GRACIAS POR CONFIAR EN RENDER!
+              </li>
+            </ul>
           </div>
           <div class="w-1/2 print:w-2/5">
             <h3 class="mb-2 w-fit text-primary dark:text-dark-primary print:text-xs">Notas:</h3>
