@@ -237,7 +237,7 @@ useHead({
       :class="{ hidden: user }"
     >
       <picture>
-        <source media="(max-width: 767px)" srcset="@/assets/images/cover.jpg" />
+        <source media="(max-width: 767px)" srcset="@/assets/images/portada.jpg" />
         <img
           src="@/assets/images/cover.jpg"
           srcset="@/assets/images/cover.jpg"
