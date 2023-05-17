@@ -439,13 +439,13 @@ useHead({
               class="w-full overflow-x-hidden pt-2 text-left text-dark-strong dark:text-light-strong print:text-[10px]"
             >
               <!-- Nombre del item -->
-              {{ item.itemName || 'Artículo sin descripcion' }}
+              {{ item.itemName || 'Artículo sin nombre' }}
             </p>
             <p
               class="w-full overflow-x-hidden pb-2 text-left italic text-dark-primary dark:text-light-primary print:text-[10px]"
             >
               <!-- Nombre del item -->
-              {{ item.itemDescription || 'Artículo sin descripcin' }}
+              {{ item.itemDescription || 'Artículo sin descripción' }}
             </p>
           </div>
           <!-- <p
