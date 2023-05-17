@@ -1,0 +1,222 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  body {
+    font-family: 'Poppins', sans-serif;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+  /* Track */
+  ::-webkit-scrollbar-track {
+    @apply rounded-xl bg-transparent dark:bg-dark-medium;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-xl bg-primary  dark:bg-primary/50;
+    /* border-radius: 5px; */
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-primary/50 dark:bg-primary;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+}
+
+/* --------------------------- */
+
+.slide-enter-from {
+  opacity: 0;
+  transform: scale(0.98);
+  /* transform: translateX(20px); */
+}
+
+.slide-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.slide-enter-active {
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+.slide-leave-active {
+  transition: all 0.3s ease;
+  /* position: absolute; */
+  overflow: hidden;
+}
+
+.slide-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.slide-leave-to {
+  opacity: 0;
+  transform: scale(0.98);
+}
+
+.slide-move {
+  transition: all 0.3s ease;
+}
+
+/* --------------------------- */
+
+.slide-up-enter-from {
+  opacity: 0;
+  transform: translateY(20px);
+}
+
+.slide-up-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.slide-up-enter-active,
+.slide-up-leave-active {
+  transition: all 0.3s ease-out;
+  overflow-x: hidden;
+}
+
+.slide-up-leave-from {
+  opacity: 1;
+  transform: translateY(0);
+}
+.slide-up-leave-to {
+  opacity: 0;
+  transform: translateY(-20px);
+}
+
+/* --------------------------- */
+
+.slide-in-enter-from {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+.slide-in-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.slide-in-enter-active,
+.slide-in-leave-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-in-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+.slide-in-leave-to {
+  opacity: 0;
+  transform: scale(0.9);
+}
+
+/* --------------------------- */
+
+.feature-enter-from {
+  opacity: 0;
+  transform: translateY(5px);
+}
+
+.feature-enter-to {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-enter-active {
+  transition: all 0.3s;
+}
+
+/* --------------------------- */
+
+.list-enter-from {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.list-enter-to {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.list-enter-active {
+  transition: all 0.4s ease;
+  transition-delay: 100ms;
+}
+
+.list-leave-from {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.8);
+}
+
+.list-leave-active {
+  transition: all 0.4s ease;
+}
+
+.list-move {
+  transition: all 0.3s ease;
+}
+
+/* --------------------------- */
+
+.alert-enter-from {
+  transform: translateY(-100px);
+}
+
+.alert-enter-to {
+  transform: translateY(0);
+}
+
+.alert-enter-active,
+.alert-leave-active {
+  transition: all 0.4s ease;
+}
+
+.alert-leave-from {
+  transform: translateY(0);
+}
+
+.alert-leave-to {
+  transform: translateY(-100px);
+}
+
+@layer utilities {
+  .modal-box {
+    @apply w-full;
+  }
+
+  .input,
+  .v-calendar .input-field input {
+    @apply input-bordered rounded-lg border-light-strong px-3 py-1 text-[0.9rem] leading-8 text-dark-medium outline-none transition-all duration-300 placeholder:italic focus:border-transparent  focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:focus:bg-dark-medium;
+  }
+  /* 
+  button {
+    @apply active:-scale-90;
+  } */
+}
