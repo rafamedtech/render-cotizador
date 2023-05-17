@@ -283,7 +283,7 @@ useHead({
             > -->
           </div>
           <h1
-            class="absolute inset-0 top-2 hidden h-fit text-center text-xl font-bold uppercase italic text-primary dark:text-dark-primary lg:block"
+            class="absolute inset-0 top-2 hidden h-fit text-center text-xl font-bold uppercase italic text-primary lg:block"
           >
             Cotización
           </h1>
@@ -320,7 +320,7 @@ useHead({
         <!-- Customer information section -->
         <section class="pb-4">
           <h2
-            class="text-md mx-auto mb-4 w-fit border-b-2 border-primary text-dark-strong dark:border-dark-primary dark:text-light-strong lg:text-base"
+            class="text-md mx-auto mb-4 w-fit border-b-2 border-primary text-dark-strong dark:text-light-strong lg:text-base"
           >
             Información del cliente
           </h2>
@@ -406,28 +406,20 @@ useHead({
           class="mt-2 flex w-[150vw] justify-between gap-2 px-4 text-[10px] print:w-full lg:w-full lg:justify-between lg:gap-2 lg:px-8"
         >
           <div class="w-72 print:w-7/12 lg:basis-5/12">
-            <h5 class="w-full py-2 font-bold text-primary dark:text-dark-primary">Descripción</h5>
+            <h5 class="w-full py-2 font-bold text-primary">Descripción</h5>
           </div>
           <!-- <h5
             class="py-2 text-center font-bold text-primary dark:text-dark-primary print:w-1/12 print:basis-1/12 lg:basis-[10%]"
           >
             Condición
           </h5> -->
-          <h5
-            class="py-2 text-center font-bold text-primary dark:text-dark-primary print:w-1/12 lg:basis-1/12"
-          >
+          <h5 class="py-2 text-center font-bold text-primary print:w-1/12 lg:basis-1/12">
             Cantidad
           </h5>
-          <h5
-            class="py-2 text-center font-bold text-primary dark:text-dark-primary print:basis-2/12 lg:basis-2/12"
-          >
+          <h5 class="py-2 text-center font-bold text-primary print:basis-2/12 lg:basis-2/12">
             Precio unitario
           </h5>
-          <h5
-            class="w-12 py-2 text-right font-bold text-primary dark:text-dark-primary print:w-1/12"
-          >
-            Importe
-          </h5>
+          <h5 class="w-12 py-2 text-right font-bold text-primary print:w-1/12">Importe</h5>
         </div>
 
         <div
@@ -443,7 +435,7 @@ useHead({
               {{ item.itemName || 'Artículo sin nombre' }}
             </p>
             <p
-              class="w-full overflow-x-hidden pb-2 text-left italic text-dark-primary dark:text-light-primary print:text-[10px]"
+              class="w-full overflow-x-hidden pb-2 text-left italic text-dark-primary print:text-[10px]"
             >
               <!-- Nombre del item -->
               {{ item.itemDescription || 'Artículo sin descripción' }}
@@ -557,7 +549,7 @@ useHead({
                 - Toda solicitud de diseño, producción de vídeo, edición web, fotografía, etc. Se
                 pide con un mínimo de 72 horas de anticipación (sujeto a disponibilidad)
               </li>
-              <li class="font-bold text-accent dark:text-accent/50">
+              <li class="font-bold text-accent dark:text-primary">
                 ¡GRACIAS POR CONFIAR EN RENDER!
               </li>
             </ul>
