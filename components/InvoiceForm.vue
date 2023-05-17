@@ -855,7 +855,7 @@ function discardInvoice() {
               class="input-bordered input-primary input h-60 resize-none bg-light-medium focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
               v-model="invoiceObject.notes"
               @input="v$.notes.$touch"
-              maxlength="100"
+              maxlength="2500"
             ></textarea>
             <label class="label">
               <span v-if="v$.notes.$error" class="label-text-alt text-red-500">{{
