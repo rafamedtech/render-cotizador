@@ -113,6 +113,12 @@ async function changeStatus(status: string) {
 
 useHead({
   title: `Cotización #${id} | Render Cotizador`,
+  meta: [
+    {
+      name: 'description',
+      content: 'Haz recibido una cotización de Render',
+    },
+  ],
 });
 
 // definePageMeta({

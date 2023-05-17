@@ -1,6 +1,16 @@
 <script setup>
 const store = useStore();
 const { isLoadingFull, openAlert } = storeToRefs(store);
+
+useHead({
+  title: 'Render Cotizador',
+  meta: [
+    {
+      name: 'description',
+      content: 'Haz recibido una cotización de Render',
+    },
+  ],
+});
 </script>
 
 <template>
