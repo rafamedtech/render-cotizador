@@ -252,7 +252,7 @@ useHead({
       <figure class="h-full">
         <img
           class="h-auto w-full rounded-[20px]"
-          src="@/assets/images/cover.jpg"
+          src="@/assets/images/portada.jpg"
           alt="cover image"
         />
       </figure>
