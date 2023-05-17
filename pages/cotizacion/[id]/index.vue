@@ -30,7 +30,10 @@ const user = useSupabaseUser();
 // });
 
 onMounted(async () => {
-  const { currentInvoice: invoiceCurrent } = await useInvoice(id);
+  // const { params } = useRoute();
+  // const { id }: any = params;
+  const { currentInvoice: invoiceCurrent, getCurrentInvoice } = await useInvoice(id);
+  await getCurrentInvoice(id);
   currentInvoice.value = invoiceCurrent.value as InvoiceWithItems;
   invoiceItemList.value = currentInvoice.value?.invoiceItems;
   isLoadingFull.value = false;
@@ -145,7 +148,7 @@ useHead({
       <div
         class="header rounded-box flex flex-col gap-4 border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong lg:flex-row"
       >
-        <div class="dropdown-bottom dropdown form-control relative mb-4 h-full w-1/2 items-end">
+        <div class="dropdown-bottom form-control dropdown relative mb-4 h-full w-1/2 items-end">
           <label class="label w-full text-center">
             <span class="label-text text-dark-strong dark:text-light-medium">Etapa</span>
           </label>
