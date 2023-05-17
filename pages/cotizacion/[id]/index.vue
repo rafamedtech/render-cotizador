@@ -134,7 +134,8 @@ useHead({
 
 <template>
   <main
-    class="custom-container relative mx-auto min-h-screen w-full max-w-screen-lg px-4 pb-24 pt-2 print:px-10 lg:px-10 lg:pb-6"
+    class="custom-container relative mx-auto w-full max-w-screen-lg px-4 lg:px-10 lg:pb-6"
+    :class="{ 'pb-14 pt-4 lg:pt-4': !user, 'pb-24 pt-[80px]': user }"
   >
     <div v-if="currentInvoice && user" class="invoice-view my-container mb-4 print:hidden">
       <NuxtLink
@@ -236,7 +237,7 @@ useHead({
     <!-- Cover -->
 
     <div
-      class="relative mb-8 h-[235px] rounded-[20px] bg-white shadow-lg lg:print:h-[235px] lg:print:w-screen"
+      class="relative mb-8 rounded-[20px] bg-white print:block lg:h-[235px] lg:print:h-[200px] lg:print:w-screen"
       :class="{ hidden: user }"
     >
       <picture>
@@ -245,7 +246,7 @@ useHead({
           src="@/assets/images/portada.jpg"
           srcset="@/assets/images/portada.jpg"
           alt=""
-          class="h-full w-full rounded-[20px] object-cover"
+          class="w-full rounded-[20px] lg:h-auto lg:object-cover"
         />
       </picture>
     </div>
@@ -399,10 +400,10 @@ useHead({
 
       <!-- Items table -->
       <section
-        class="rounded-box relative mt-4 hidden max-h-[240px] min-h-[220px] overflow-x-auto border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong print:block print:border print:border-light-strong print:shadow-none lg:block"
+        class="rounded-box relative mt-4 hidden max-h-[240px] min-h-[340px] overflow-x-auto border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong print:block print:border print:border-light-strong print:shadow-none lg:block"
       >
         <div
-          class="flex w-[150vw] justify-between gap-2 px-4 text-[10px] print:w-full lg:w-full lg:justify-between lg:gap-2 lg:px-8"
+          class="mt-2 flex w-[150vw] justify-between gap-2 px-4 text-[10px] print:w-full lg:w-full lg:justify-between lg:gap-2 lg:px-8"
         >
           <div class="w-72 print:w-7/12 lg:basis-5/12">
             <h5 class="w-full py-2 font-bold text-primary dark:text-dark-primary">Descripción</h5>
@@ -494,12 +495,12 @@ useHead({
           <div class="carousel-item" v-for="(item, index) in invoiceItemList" :key="index">
             <div class="card bg-base-100 shadow-xl dark:bg-dark-medium">
               <div class="card-body text-xs">
-                <h2 class="card-title w-52 text-[12px] text-dark-medium dark:text-light-medium">
-                  {{ item.itemName || 'Articulo sin descripcion' }}
+                <h2 class="card-title w-52 text-[16px] text-dark-medium dark:text-light-medium">
+                  {{ item.itemName || 'Artículo sin nombre' }}
                 </h2>
-                <p class="text-dark-medium dark:text-light-medium">
-                  <span class="font-bold text-primary dark:text-primary/50">Condición:</span>
-                  {{ item.condition }}
+                <p class="w-[35ch] text-dark-medium dark:text-light-medium">
+                  <span class="font-bold text-primary dark:text-primary/50">Descripción:</span>
+                  {{ item.itemDescription || 'Artículo sin descripción' }}
                 </p>
                 <p class="text-dark-medium dark:text-light-medium">
                   <span class="font-bold text-primary dark:text-primary/50">Cantidad:</span>
@@ -610,73 +611,6 @@ useHead({
       </section>
     </div>
     <!-- :class="{ hidden: user }" -->
-    <section class="mt-8 hidden lg:print:h-screen lg:print:w-screen">
-      <!-- <img src="../assets/logo-bgremoved.png" class="mb-2 h-24" alt="" /> -->
-      <div
-        class="relative flex w-full flex-col items-center rounded-[20px] bg-white px-8 py-8 text-xs shadow-lg dark:bg-dark-strong print:h-[500px] print:max-h-[500px] lg:h-[70vh] lg:text-base"
-      >
-        <h2
-          class="inset-0 top-4 h-fit text-center text-xl font-bold uppercase italic text-primary dark:text-primary/50 print:block lg:block"
-        >
-          Ficha Técnica
-        </h2>
-        <section class="h-full overflow-hidden">
-          <div class="container mx-auto h-full px-5 py-8">
-            <div
-              class="mx-auto flex h-full flex-col items-center justify-center gap-8 print:w-full print:flex-row print:flex-nowrap lg:flex-row"
-            >
-              <!-- <figure
-                v-if="currentInvoice.features.image"
-                class="h-full rounded"
-                :class="{
-                  'print:h-auto print:w-1/2 lg:w-auto': currentInvoice.features.text,
-                  'mx-auto print:h-auto print:w-1/2 lg:h-full lg:w-full':
-                    !currentInvoice.features.text,
-                }"
-              >
-                <img class="h-full w-full" alt="ecommerce" :src="currentInvoice.features.image" />
-              </figure> -->
-              <!-- <div
-                v-if="currentInvoice.features.text"
-                class="w-full basis-1/2 leading-tight lg:mt-0 lg:w-1/2"
-              >
-                <p class="mx-auto h-full w-full basis-1/2 text-[10px]">
-                  {{ currentInvoice.features.text }}
-                </p>
-              </div> -->
-            </div>
-          </div>
-        </section>
-      </div>
-      <!-- <section class="mt-4 flex justify-end">
-        <ul class="mr-0 flex gap-8">
-          <li class="flex items-center gap-2">
-            <i
-              v-if="currentInvoice.condition === 'nuevo'"
-              class="fa-regular fa-circle-check text-xl text-green-500"
-            ></i>
-            <i v-else class="fa-regular fa-circle-xmark text-xl text-red-500"></i>
-            Nuevo
-          </li>
-          <li class="flex items-center gap-2">
-            <i
-              v-if="currentInvoice.condition === 'usado'"
-              class="fa-regular fa-circle-check text-xl text-green-500"
-            ></i>
-            <i v-else class="fa-regular fa-circle-xmark text-xl text-red-500"></i>
-            Usado
-          </li>
-          <li class="flex items-center gap-2">
-            <i
-              v-if="currentInvoice.condition === 'refurbished'"
-              class="fa-regular fa-circle-check text-xl text-green-500"
-            ></i>
-            <i v-else class="fa-regular fa-circle-xmark text-xl text-red-500"></i>
-            Refurbished
-          </li>
-        </ul>
-      </section> -->
-    </section>
 
     <!-- Crear PDF usuario -->
     <div class="pdf flex justify-center print:hidden" v-if="!user">
@@ -692,9 +626,14 @@ useHead({
 </template>
 
 <style lang="scss" scoped>
+.custom-container {
+  @apply print:m-0 print:min-h-full print:p-0;
+}
+
 .pdf {
   @media print {
     display: none;
+    position: absolute;
   }
 }
 .invoice-view {
@@ -726,8 +665,6 @@ useHead({
       align-items: center;
 
       span {
-        // color: #1a1a1a;
-        // color: #dfe3fa;
         margin-right: 16px;
       }
     }
@@ -735,10 +672,6 @@ useHead({
     .right {
       flex: 1;
       justify-content: flex-end;
-
-      // button {
-      //   color: #fff;
-      // }
     }
   }
 
@@ -834,7 +767,6 @@ useHead({
 
         .heading {
           color: #dfe3fa;
-          // font-size: 12px;
           margin-bottom: 32px;
 
           p:first-child {

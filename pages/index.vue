@@ -54,7 +54,10 @@ definePageMeta({
 </script>
 
 <template>
-  <main class="custom-container grid place-content-center pb-[8rem]">
+  <main
+    class="custom-container grid place-content-center pb-[8rem]"
+    :style="{ 'padding-top': '40px' }"
+  >
     <h1 class="text-2xl text-primary dark:text-primary/50 lg:text-3xl">Inicio</h1>
     <div
       class="stats stats-vertical my-4 min-w-[20rem] border border-light-strong transition-all delay-200 lg:stats-horizontal dark:border-dark-medium dark:bg-dark-strong md:min-w-[30rem] lg:w-[50rem]"

@@ -86,7 +86,7 @@ const actionBtnText = computed(() => {
 
 <template>
   <div>
-    <input type="checkbox" id="my-modal-6" class="modal-toggle" />
+    <input type="checkbox" id="my-modal-6" class="modal-toggle print:hidden" />
 
     <div class="modal modal-bottom sm:modal-middle print:hidden">
       <div class="modal-box dark:bg-dark-medium">

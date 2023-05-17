@@ -16,7 +16,7 @@ const {
   searchDate,
 } = storeToRefs(store);
 
-// const { invoices } = await useInvoices();
+const { getInvoices } = await useInvoices();
 const invoices = ref([]);
 const filterMenu = ref(true);
 const filteredInvoices = ref([]);
@@ -149,6 +149,23 @@ function toggleFilter() {
 
 const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
+const loadInvoices = ref(false)
+ function refreshInvoices() {
+loadInvoices.value = true
+isLoading.value = true
+invoicesLoaded.value = false
+sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+
+
+
+setTimeout(async () => {
+  await getInvoices()
+  loadInvoices.value = false
+  isLoading.value = false
+  invoicesLoaded.value = true
+}, 2000);
+}
+
 useHead({
   title: 'Cotizaciones | Render Cotizador',
 });
@@ -202,6 +219,12 @@ definePageMeta({
           <p class="hidden w-[30%] lg:block lg:w-[25%]">Empresa</p>
           <p class="hidden w-[25%] lg:block">Total</p>
           <p class="hidden w-[20%] lg:block">Status</p>
+          <Icon
+              class="cursor-pointer text-2xl text-accent absolute right-2"
+              :class="{ 'animate-spin': loadInvoices }"
+              name="ri:refresh-line"
+              @click="refreshInvoices"
+            />
         </section>
 
         <TransitionGroup
