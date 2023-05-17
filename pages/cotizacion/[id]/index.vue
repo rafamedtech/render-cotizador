@@ -239,8 +239,8 @@ useHead({
       <picture>
         <source media="(max-width: 767px)" srcset="@/assets/images/portada.jpg" />
         <img
-          src="@/assets/images/cover.jpg"
-          srcset="@/assets/images/cover.jpg"
+          src="@/assets/images/portada.jpg"
+          srcset="@/assets/images/portada.jpg"
           alt=""
           class="h-full w-full rounded-[20px] object-cover"
         />
