@@ -33,7 +33,7 @@ const invoiceTitle = computed(() => {
 const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
 const invoiceObject = reactive<InvoiceDraft>({
-  invId: invoices.value ? (invoices.value?.length + 1).toString() : '0',
+  invId: invoices.value ? (invoices.value?.length + 394).toString() : '0',
   clientCompany: '',
   clientName: '',
   clientName2: '',

@@ -109,7 +109,7 @@ async function changeStatus(status: string) {
 // const invoiceBtn = ref<HTMLInputElement | null>(null);
 
 useHead({
-  title: `Cotización #${id} | Suntech Cotizador`,
+  title: `Cotización #${id} | Render Cotizador`,
 });
 
 // definePageMeta({
@@ -279,7 +279,7 @@ useHead({
             > -->
           </div>
           <h1
-            class="absolute inset-0 top-2 hidden h-fit text-center text-xl font-bold uppercase italic text-primary dark:text-primary/50 lg:block"
+            class="absolute inset-0 top-2 hidden h-fit text-center text-xl font-bold uppercase italic text-primary dark:text-dark-primary lg:block"
           >
             Cotización
           </h1>
@@ -288,13 +288,13 @@ useHead({
               #{{ id }}
             </p>
 
-            <h3 class="text-xs text-primary dark:text-primary/50 lg:text-base">Fecha</h3>
+            <h3 class="text-xs text-primary dark:text-dark-primary lg:text-base">Fecha</h3>
 
             <p class="dark:text-light-strongm text-[10px] text-dark-medium dark:text-light-strong">
               {{ currentInvoice?.invoiceDate }}
             </p>
 
-            <h3 class="text-xs text-primary dark:text-primary/50 lg:text-base">Vigencia</h3>
+            <h3 class="text-xs text-primary dark:text-dark-primary lg:text-base">Vigencia</h3>
 
             <p class="dark:text-light text-[10px] text-dark-medium dark:text-light-strong">
               {{
@@ -305,7 +305,7 @@ useHead({
               }}
             </p>
 
-            <h3 class="text-xs text-primary dark:text-primary/50 lg:text-base">Entrega</h3>
+            <h3 class="text-xs text-primary dark:text-dark-primary lg:text-base">Entrega</h3>
 
             <p class="dark:text-light text-[10px] text-dark-medium dark:text-light-strong">
               {{ currentInvoice?.eta }}
@@ -316,14 +316,14 @@ useHead({
         <!-- Customer information section -->
         <section class="pb-4">
           <h2
-            class="text-md mx-auto mb-4 w-fit border-b-2 border-primary text-dark-strong dark:border-primary/50 dark:text-light-strong lg:text-base"
+            class="text-md mx-auto mb-4 w-fit border-b-2 border-primary text-dark-strong dark:border-dark-primary dark:text-light-strong lg:text-base"
           >
             Información del cliente
           </h2>
 
           <ul class="grid grid-cols-3 gap-4 px-4 text-xs print:grid-cols-5 lg:grid-cols-5 lg:px-8">
             <li class="text-center">
-              <h3 class="mb-2 text-xs text-primary dark:text-primary/50 lg:text-base">Nombre</h3>
+              <h3 class="mb-2 text-xs text-primary dark:text-dark-primary lg:text-base">Nombre</h3>
               <p
                 class="text-[10px] capitalize text-dark-strong dark:text-light-strong print:text-[10px] lg:text-xs"
               >
@@ -339,7 +339,7 @@ useHead({
             </li>
             <li class="text-center">
               <h3
-                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-primary/50 lg:text-base"
+                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-dark-primary lg:text-base"
               >
                 Empresa
               </h3>
@@ -352,7 +352,7 @@ useHead({
             </li>
             <li class="text-center">
               <h3
-                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-primary/50 lg:text-base"
+                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-dark-primary lg:text-base"
               >
                 Forma de pago
               </h3>
@@ -365,7 +365,7 @@ useHead({
             </li>
             <li class="text-center">
               <h3
-                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-primary/50 lg:text-base"
+                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-dark-primary lg:text-base"
               >
                 Moneda
               </h3>
@@ -378,7 +378,7 @@ useHead({
             </li>
             <li class="text-center">
               <h3
-                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-primary/50 lg:text-base"
+                class="mb-2 border-dark-strong text-xs text-primary dark:border-light-strong dark:text-dark-primary lg:text-base"
               >
                 Tipo de cambio
               </h3>
@@ -402,24 +402,26 @@ useHead({
           class="flex w-[150vw] justify-between gap-2 px-4 text-[10px] print:w-full lg:w-full lg:justify-between lg:gap-2 lg:px-8"
         >
           <div class="w-72 print:w-7/12 lg:basis-5/12">
-            <h5 class="w-full py-2 font-bold text-primary dark:text-primary/50">Descripción</h5>
+            <h5 class="w-full py-2 font-bold text-primary dark:text-dark-primary">Descripción</h5>
           </div>
           <h5
-            class="py-2 text-center font-bold text-primary dark:text-primary/50 print:w-1/12 print:basis-1/12 lg:basis-[10%]"
+            class="py-2 text-center font-bold text-primary dark:text-dark-primary print:w-1/12 print:basis-1/12 lg:basis-[10%]"
           >
             Condición
           </h5>
           <h5
-            class="py-2 text-center font-bold text-primary dark:text-primary/50 print:w-1/12 lg:basis-1/12"
+            class="py-2 text-center font-bold text-primary dark:text-dark-primary print:w-1/12 lg:basis-1/12"
           >
             Cantidad
           </h5>
           <h5
-            class="py-2 text-center font-bold text-primary dark:text-primary/50 print:basis-2/12 lg:basis-2/12"
+            class="py-2 text-center font-bold text-primary dark:text-dark-primary print:basis-2/12 lg:basis-2/12"
           >
             Precio unitario
           </h5>
-          <h5 class="w-12 py-2 text-right font-bold text-primary dark:text-primary/50 print:w-1/12">
+          <h5
+            class="w-12 py-2 text-right font-bold text-primary dark:text-dark-primary print:w-1/12"
+          >
             Importe
           </h5>
         </div>
@@ -531,7 +533,7 @@ useHead({
           class="rounded-box flex w-full flex-col gap-4 overflow-y-hidden border border-light-strong bg-white px-6 py-4 dark:border-dark-medium dark:bg-dark-strong print:w-3/5 print:basis-4/5 print:flex-row print:border print:border-light-strong print:pr-0 print:shadow-none lg:w-4/5 lg:flex-row"
         >
           <div class="overflow-y-hidden print:w-2/5 lg:w-1/2">
-            <h3 class="mb-2 w-fit text-primary dark:text-primary/50 print:text-xs">
+            <h3 class="mb-2 w-fit text-primary dark:text-dark-primary print:text-xs">
               Condiciones del servicio
             </h3>
             <p
@@ -544,7 +546,7 @@ useHead({
             </p>
           </div>
           <div class="w-1/2 print:w-2/5">
-            <h3 class="mb-2 w-fit text-primary dark:text-primary/50 print:text-xs">Notas:</h3>
+            <h3 class="mb-2 w-fit text-primary dark:text-dark-primary print:text-xs">Notas:</h3>
             <p
               class="h-12 w-[50ch] overflow-hidden text-[8px] uppercase italic text-dark-strong dark:text-light-strong print:w-full print:text-[6px]"
             >
@@ -558,8 +560,8 @@ useHead({
         >
           <div class="flex items-center justify-between">
             <div class="flex flex-col gap-2">
-              <p class="text-xs text-primary dark:text-primary/50">Subtotal</p>
-              <p class="text-xs text-primary dark:text-primary/50">IVA 16%</p>
+              <p class="text-xs text-primary dark:text-dark-primary">Subtotal</p>
+              <p class="text-xs text-primary dark:text-dark-primary">IVA 16%</p>
             </div>
             <div class="flex flex-col items-end gap-2 text-xs">
               <p class="text-dark-strong dark:text-light-strong">
@@ -584,7 +586,7 @@ useHead({
           </div>
           <div class="divide divider my-0 w-full"></div>
           <div class="flex w-full justify-between font-bold">
-            <p class="text-primary dark:text-primary/50">Total</p>
+            <p class="text-primary dark:text-dark-primary">Total</p>
             <p class="text-primary">
               <!-- Total -->
               {{

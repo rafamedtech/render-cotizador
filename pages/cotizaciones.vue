@@ -150,7 +150,7 @@ function toggleFilter() {
 const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
 useHead({
-  title: 'Cotizaciones | Suntech Cotizador',
+  title: 'Cotizaciones | Render Cotizador',
 });
 
 definePageMeta({

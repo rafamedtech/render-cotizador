@@ -11,6 +11,13 @@ function discardInvoice() {
   backBtn.value?.click();
 }
 
+const { params } = useRoute();
+const { id }: any = params;
+
+useHead({
+  title: `Editar Cotización #${id} | Render Cotizador`,
+});
+
 definePageMeta({
   middleware: ['auth'],
   pageTransition: {

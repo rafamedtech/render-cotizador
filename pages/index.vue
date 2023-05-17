@@ -45,7 +45,7 @@ function clientInvoices(client) {
 }
 
 useHead({
-  title: 'Inicio | Suntech Cotizador',
+  title: 'Inicio | Render Cotizador',
 });
 
 definePageMeta({

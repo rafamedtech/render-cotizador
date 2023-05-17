@@ -49,7 +49,7 @@ watchEffect(async () => {
 });
 
 useHead({
-  title: 'Iniciar sesión | Suntech Cotizador',
+  title: 'Iniciar sesión | Render Cotizador',
 });
 
 definePageMeta({

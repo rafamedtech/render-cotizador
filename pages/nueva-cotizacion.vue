@@ -16,7 +16,7 @@ function discardInvoice() {
 }
 
 useHead({
-  title: 'Nueva Cotización | Suntech Cotizador',
+  title: 'Nueva Cotización | Render Cotizador',
 });
 
 definePageMeta({
