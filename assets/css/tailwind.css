@@ -16,18 +16,17 @@
   }
   /* Track */
   ::-webkit-scrollbar-track {
-    @apply rounded-xl bg-transparent dark:bg-dark-medium;
+    @apply dark:bg-dark-medium;
   }
 
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    @apply rounded-xl bg-primary  dark:bg-primary/50;
-    /* border-radius: 5px; */
+    @apply bg-primary dark:bg-dark-primary;
   }
 
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-primary/50 dark:bg-primary;
+    @apply bg-dark-primary dark:bg-primary;
   }
 
   /* Chrome, Safari, Edge, Opera */
@@ -132,24 +131,6 @@
   transform: scale(0.9);
 }
 
-/* --------------------------- */
-
-.feature-enter-from {
-  opacity: 0;
-  transform: translateY(5px);
-}
-
-.feature-enter-to {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.feature-enter-active {
-  transition: all 0.3s;
-}
-
-/* --------------------------- */
-
 .list-enter-from {
   opacity: 0;
   transform: scale(0.8);
@@ -215,8 +196,4 @@
   .v-calendar .input-field input {
     @apply input-bordered rounded-lg border-light-strong px-3 py-1 text-[0.9rem] leading-8 text-dark-medium outline-none transition-all duration-300 placeholder:italic focus:border-transparent  focus:bg-white focus:outline-none focus:ring-2 focus:ring-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:focus:bg-dark-medium dark:focus:ring-dark-primary;
   }
-  /* 
-  button {
-    @apply active:-scale-90;
-  } */
 }

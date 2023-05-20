@@ -205,13 +205,14 @@ definePageMeta({
           />
         </section>
 
-        <section class="mt-4 flex justify-center lg:hidden">
+        <section class="mt-4 flex flex-col items-center justify-center lg:hidden">
           <Icon
-            class="cursor-pointer text-4xl text-accent"
+            class="cursor-pointer text-4xl text-secondary dark:text-dark-secondary"
             :class="{ 'animate-spin': loadInvoices }"
             name="ri:refresh-line"
             @click="refreshInvoices"
           />
+          <span class="text-dark-medium dark:text-light-medium">Sincronizar</span>
         </section>
 
         <TransitionGroup
