@@ -251,11 +251,6 @@ function discardInvoice() {
   });
   backBtn.value?.click();
 }
-
-function openDescription() {
-  descriptionModal.value?.click();
-  console.log('test');
-}
 </script>
 
 <template>
@@ -599,7 +594,7 @@ function openDescription() {
                         <div class="modal-box relative dark:bg-dark-strong">
                           <label
                             for="my-modal-3"
-                            class="btn-secondary btn-sm btn-circle btn absolute right-2 top-2"
+                            class="btn-secondary btn-sm btn-circle btn absolute right-2 top-2 dark:border-dark-secondary dark:bg-dark-secondary"
                             >✕</label
                           >
                           <h3 class="mb-4 text-lg font-bold text-primary dark:text-dark-primary">
@@ -803,7 +798,7 @@ function openDescription() {
 
           <section class="mb-4 flex flex-col gap-2">
             <div class="flex w-full justify-end gap-4 pr-4 font-bold">
-              <p class="text-light-primary dark:text-dark-primary">Subtotal:</p>
+              <p class="text-primary dark:text-dark-primary">Subtotal:</p>
               <p class="text-dark-medium dark:text-light-medium">
                 {{
                   new Intl.NumberFormat('es-MX', {
@@ -814,7 +809,7 @@ function openDescription() {
               </p>
             </div>
             <div class="flex w-full justify-end gap-4 pr-4 font-bold">
-              <p class="text-light-primary dark:text-dark-primary">Impuestos:</p>
+              <p class="text-primary dark:text-dark-primary">Impuestos:</p>
               <p class="text-dark-medium dark:text-light-medium">
                 {{
                   new Intl.NumberFormat('es-MX', {
@@ -825,7 +820,7 @@ function openDescription() {
               </p>
             </div>
             <div class="flex w-full justify-end gap-4 pr-4 font-bold">
-              <p class="text-light-primary dark:text-dark-primary">Total:</p>
+              <p class="text-primary dark:text-dark-primary">Total:</p>
               <p class="text-dark-medium dark:text-light-medium">
                 {{
                   new Intl.NumberFormat('es-MX', {
