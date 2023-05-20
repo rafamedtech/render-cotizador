@@ -836,7 +836,7 @@ function discardInvoice() {
             <button
               type="button"
               @click="discardInvoice"
-              class="btn border-none hover:text-primary focus:outline-primary dark:bg-light-strong/50 dark:hover:text-primary lg:w-56"
+              class="btn border-none hover:text-primary focus:outline-primary dark:bg-dark-medium dark:hover:text-primary lg:w-56"
             >
               <span>Cancelar</span>
             </button>
