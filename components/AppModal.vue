@@ -90,19 +90,19 @@ const actionBtnText = computed(() => {
 
     <div class="modal modal-bottom sm:modal-middle print:hidden">
       <div class="modal-box dark:bg-dark-medium">
-        <h3 class="text-lg font-bold text-primary dark:text-primary/50">{{ modalType }}</h3>
+        <h3 class="text-lg font-bold text-primary dark:text-dark-primary">{{ modalType }}</h3>
         <p class="py-4 text-dark-medium dark:text-light-medium">{{ modalText }}</p>
         <div class="modal-action">
           <label ref="backBtn" for="my-modal-6" class="hidden"></label>
           <button
             v-if="modalType !== Modal.Email"
             @click="toggleModal"
-            class="btn bg-dark-strong hover:bg-dark-medium hover:text-primary lg:w-32"
+            class="btn bg-dark-strong hover:bg-dark-medium hover:text-primary dark:hover:bg-dark-strong dark:hover:text-dark-primary lg:w-32"
           >
             Regresar
           </button>
           <button
-            class="btn-primary btn cursor-pointer bg-primary text-light-medium hover:bg-primary/50 dark:bg-primary/50 dark:hover:bg-primary lg:w-32"
+            class="btn-primary btn cursor-pointer text-light-medium dark:border-dark-secondary dark:bg-dark-secondary dark:hover:bg-dark-secondary/50 lg:w-32"
             @click="onAction"
           >
             <label for="my-modal-6" class="hidden"></label>

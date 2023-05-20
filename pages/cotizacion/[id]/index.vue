@@ -155,43 +155,53 @@ useHead({
       <div
         class="header rounded-box flex flex-col gap-4 border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong lg:flex-row"
       >
-        <div class="dropdown-bottom form-control dropdown relative mb-4 h-full w-1/2 items-end">
+        <div class="form-control mb-4 h-full w-fit items-end">
           <label class="label w-full text-center">
             <span class="label-text text-dark-strong dark:text-light-medium">Etapa</span>
           </label>
-          <StatusButton :status="currentInvoice.status" @@modal="changeStatusModal" />
-          <div class="w-full">
-            <ul
-              v-if="statusModal"
-              class="dropdown-content menu min-h-12 mt-2 flex max-h-[250px] w-fit rounded-lg border border-light-strong bg-white shadow-lg transition-all dark:border dark:border-dark-strong dark:bg-dark-strong dark:text-light-strong"
-            >
-              <li
-                v-if="currentInvoice.status === 'Borrador'"
-                class="cursor-pointer text-dark-medium dark:text-light-medium dark:hover:text-primary"
+          <div class="flex">
+            <StatusButton :status="currentInvoice.status" @@modal="changeStatusModal" />
+            <div class="dropdown-end dropdown relative w-8">
+              <label tabindex="0" class="cursor-pointer">
+                <Icon
+                  name="material-symbols:arrow-drop-down-circle-outline-rounded"
+                  size="32"
+                  @click="changeStatusModal"
+                  class="text-secondary dark:text-dark-secondary"
+              /></label>
+              <ul
+                v-if="statusModal"
+                tabindex="0"
+                class="dropdown-content menu min-h-12 mt-2 flex max-h-[250px] w-40 rounded-lg border border-light-strong bg-white shadow-lg transition-all dark:border dark:border-dark-strong dark:bg-dark-strong dark:text-light-strong"
               >
-                <button type="button" @click="changeStatus('Pendiente')">
-                  <Icon name="icon-park-outline:caution" class="text-base text-secondary" />
-                  Pendiente
-                </button>
-              </li>
-              <li
-                class="cursor-pointer text-dark-medium dark:text-light-medium dark:hover:text-primary"
-              >
-                <button type="button" @click="changeStatus('Vendida')">
-                  <Icon name="icon-park-outline:check-one" class="text-base text-green-500" />
-                  Vendida
-                </button>
-              </li>
-              <li
-                v-if="currentInvoice.status === 'Vendida'"
-                class="cursor-pointer text-dark-medium dark:text-light-medium dark:hover:text-primary"
-              >
-                <button type="button" @click="changeStatus('Cancelada')">
-                  <Icon name="material-symbols:cancel-outline" class="text-base text-red-500" />
-                  Cancelada
-                </button>
-              </li>
-            </ul>
+                <li
+                  v-if="currentInvoice.status === 'Borrador'"
+                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
+                >
+                  <button type="button" @click="changeStatus('Pendiente')">
+                    <Icon name="icon-park-outline:caution" class="text-base text-orange-500" />
+                    Pendiente
+                  </button>
+                </li>
+                <li
+                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
+                >
+                  <button type="button" @click="changeStatus('Vendida')">
+                    <Icon name="icon-park-outline:check-one" class="text-base text-green-500" />
+                    Vendida
+                  </button>
+                </li>
+                <li
+                  v-if="currentInvoice.status === 'Vendida'"
+                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
+                >
+                  <button type="button" @click="changeStatus('Cancelada')">
+                    <Icon name="material-symbols:cancel-outline" class="text-base text-red-500" />
+                    Cancelada
+                  </button>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
 
@@ -276,17 +286,6 @@ useHead({
         <section class="relative flex h-full justify-between px-4 lg:px-8">
           <div class="mb-4 h-full w-1/2">
             <img class="mb-2 h-24 lg:my-4" src="@/assets/images/logo-rosa-cropped.png" />
-            <!-- <span class="block text-xs font-bold text-primary dark:text-primary/50"
-              >Render <span class="dark:text-light text-secondary">MX</span>
-            </span> -->
-            <!-- <p
-              class="w-[40ch] text-[6px] text-dark-strong dark:text-light-strong print:w-[80ch] lg:w-[70ch]"
-            ></p> -->
-            <!-- <a
-              class="text-[10px] text-dark-strong dark:text-light-strong"
-              href="https://www.gcosoluciones.com"
-              >www.suntechelectronics.com</a
-            > -->
           </div>
           <h1
             class="absolute inset-0 top-2 hidden h-fit text-center text-xl font-bold uppercase italic text-primary lg:block"
@@ -326,7 +325,7 @@ useHead({
         <!-- Customer information section -->
         <section class="pb-4">
           <h2
-            class="text-md mx-auto mb-4 w-fit border-b-2 border-primary text-dark-strong dark:text-light-strong lg:text-base"
+            class="text-md mx-auto mb-4 w-fit border-b-2 border-secondary text-dark-strong dark:text-light-strong lg:text-base"
           >
             Información del cliente
           </h2>
@@ -487,6 +486,13 @@ useHead({
         >
           Artículos
         </h3>
+        <section
+          class="mx-auto flex items-center justify-center text-secondary dark:text-dark-secondary lg:hidden"
+        >
+          <Icon name="material-symbols:chevron-left-rounded" size="32" />
+          <span class="text-primary dark:text-dark-primary">Desliza</span>
+          <Icon name="material-symbols:chevron-right-rounded" size="32" />
+        </section>
         <div
           class="carousel-center carousel rounded-box max-w-md space-x-4 bg-light-strong p-4 dark:bg-dark-strong"
         >

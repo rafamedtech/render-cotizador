@@ -84,7 +84,7 @@ if (props.edit) {
 
 // Saved contacts menu
 const contactsModal = ref(false);
-const { contactData, backBtn, isLoading, filterResults } = storeToRefs(store);
+const { contactData, backBtn, isLoading, filterResults, descriptionModal } = storeToRefs(store);
 const filteredContacts = ref<Contact[]>([]);
 const uniqueContacts = ref(
   Array.from(new Set(contactData.value.map((a) => a.clientCompany))).map((clientCompany) => {
@@ -251,6 +251,11 @@ function discardInvoice() {
   });
   backBtn.value?.click();
 }
+
+function openDescription() {
+  descriptionModal.value?.click();
+  console.log('test');
+}
 </script>
 
 <template>
@@ -259,14 +264,14 @@ function discardInvoice() {
   >
     <form @submit.prevent="onSubmit" class="scrollbar-form relative w-full">
       <h1
-        class="w-fit border-b-2 border-light-primary text-2xl text-dark-medium dark:border-dark-primary dark:text-light-medium"
+        class="w-fit border-b-2 border-primary text-2xl text-dark-medium dark:border-dark-primary dark:text-light-medium"
       >
         {{ invoiceTitle }}
       </h1>
 
       <div class="mt-8 flex flex-col">
         <h4
-          class="mb-2 w-fit border-b border-dark-medium text-lg font-bold text-light-primary dark:border-light-medium dark:text-dark-primary"
+          class="mb-2 w-fit border-b border-dark-medium text-lg font-bold text-primary dark:border-light-medium dark:text-dark-primary"
         >
           Datos generales
         </h4>
@@ -288,7 +293,7 @@ function discardInvoice() {
                 autocomplete="off"
                 type="text"
                 placeholder="Escribe aqui..."
-                class="input-primary input w-full bg-light-medium capitalize disabled:border-light-strong disabled:bg-light-medium"
+                class="input-primary input w-full bg-light-medium capitalize disabled:border-light-strong disabled:bg-light-medium dark:disabled:border-dark-medium dark:disabled:bg-dark-medium"
                 :disabled="edit"
               />
               <Icon
@@ -322,56 +327,79 @@ function discardInvoice() {
             </div>
           </div>
 
-          <div
-            class="dropdown-bottom dropdown form-control relative mb-4 h-full w-1/2 items-end text-xs"
-          >
+          <div class="form-control relative mb-4 h-full w-fit items-end text-xs">
             <label class="label w-full text-left">
               <span class="label-text text-dark-strong dark:text-light-medium">Etapa</span>
             </label>
-            <StatusButton :status="invoiceObject.status" @@modal="changeStatusModal" />
+            <div class="flex">
+              <StatusButton :status="invoiceObject.status" />
+              <div class="dropdown-end dropdown relative w-8">
+                <label tabindex="0" class="cursor-pointer">
+                  <Icon
+                    name="material-symbols:arrow-drop-down-circle-outline-rounded"
+                    size="32"
+                    @click="changeStatusModal"
+                    class="text-secondary dark:text-dark-secondary"
+                /></label>
+                <ul
+                  v-if="statusModal"
+                  class="dropdown-content menu min-h-12 mt-2 flex max-h-[250px] w-40 rounded-lg border border-light-strong bg-white shadow-lg transition-all dark:border dark:border-dark-strong dark:bg-dark-strong dark:text-light-strong"
+                >
+                  <li
+                    class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
+                  >
+                    <button type="button" @click="changeStatus('Borrador')">
+                      <Icon
+                        name="ri:draft-line"
+                        class="text-base text-dark-medium dark:text-light-medium"
+                      />
+                      Borrador
+                    </button>
+                  </li>
+                  <li
+                    class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
+                  >
+                    <button type="button" @click="changeStatus('Pendiente')">
+                      <Icon name="icon-park-outline:caution" class="text-base text-orange-500" />
+                      Pendiente
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            </div>
 
-            <div class="w-full">
+            <!-- <div class="w-full">
               <ul
                 v-if="statusModal"
                 class="dropdown-content menu min-h-12 mt-2 flex max-h-[250px] w-fit rounded-lg border border-light-strong bg-white shadow-lg transition-all dark:border dark:border-dark-strong dark:bg-dark-strong dark:text-light-strong"
               >
-                <!-- class="dropdown-content menu min-h-12 mt-2 flex max-h-[250px] w-fit rounded-[10px] bg-white p-2 shadow-lg transition-all dark:border dark:border-dark-medium dark:bg-dark-strong dark:text-light-strong" -->
-                <!-- <span class="py-2 pl-2 italic text-primary">Contactos disponibles</span> -->
                 <li
-                  class="cursor-pointer text-dark-medium dark:text-light-medium dark:hover:text-primary"
+                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
                 >
                   <button type="button" @click="changeStatus('Borrador')">
-                    <Icon name="ri:draft-line" class="text-base" />
+                    <Icon
+                      name="ri:draft-line"
+                      class="text-base text-dark-medium dark:text-light-medium"
+                    />
                     Borrador
                   </button>
                 </li>
                 <li
-                  class="cursor-pointer text-dark-medium dark:text-light-medium dark:hover:text-primary"
+                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
                 >
                   <button type="button" @click="changeStatus('Pendiente')">
-                    <Icon name="icon-park-outline:caution" class="text-base text-secondary" />
+                    <Icon name="icon-park-outline:caution" class="text-base text-orange-500" />
                     Pendiente
                   </button>
                 </li>
               </ul>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="divider"></div>
 
         <div class="mb-4 grid grid-cols-2 gap-4 lg:grid-cols-3">
-          <!-- <div class="payment flex"> -->
-          <!-- <div class="flex flex-col">
-              <label for="invoiceDate" class="dark:text-light-strong">Fecha</label>
-              <input
-                class="input-bordered input w-full py-1 px-3 leading-8 text-dark-medium outline-none disabled:input-bordered placeholder:italic disabled:bg-light-medium dark:bg-dark-medium dark:text-light-strong"
-                type="text"
-                id="invoiceDate"
-                disabled
-                :value="invoiceObject.invoiceDate.toLocaleDateString('es-MX', dateOptions)"
-              />
-            </div> -->
           <BaseInput label="Fecha" :model-value="invoiceObject.invoiceDate" disabled />
 
           <div class="form-control flex w-full flex-col">
@@ -394,20 +422,6 @@ function discardInvoice() {
             </label>
           </div>
 
-          <!-- <div class="flex flex-col">
-              <label
-                for="paymentDueDate"
-                class="text-[10px] dark:text-light-strong lg:text-[12px]"
-                data-label="entrega"
-                >Tiempo de entrega</label
-              >
-              <input
-                class="input-primary input w-full bg-light-medium"
-                type="text"
-                id="paymentDueDate"
-                v-model="invoiceObject.eta"
-              />
-            </div> -->
           <BaseInput label="Tiempo de entrega" v-model="invoiceObject.eta"></BaseInput>
         </div>
 
@@ -465,27 +479,14 @@ function discardInvoice() {
 
         <!-- Contactos -->
         <h4
-          class="mb-4 w-fit border-b border-dark-medium text-lg font-bold text-light-primary dark:border-light-medium dark:text-dark-primary"
+          class="mb-4 w-fit border-b border-dark-medium text-lg font-bold text-primary dark:border-light-medium dark:text-dark-primary"
         >
           Contactos
         </h4>
         <div class="mb-4 flex w-full gap-4 lg:gap-8">
           <div class="mb-2 w-1/2">
-            <h5 class="mb-2 w-fit text-light-primary dark:text-dark-primary">Contacto 1</h5>
-            <!-- <div class="form-control relative mb-2 flex flex-col">
-                <label for="clientName" class="">Nombre<span class="text-red-500">*</span></label>
-                <input
-                  class="input-primary input w-full bg-light-medium"
-                  type="text"
-                  id="clientName"
-                  v-model="invoiceObject.clientName"
-                />
-                <label class="label">
-                  <span v-if="v$.clientName.$error" class="label-text-alt text-red-500">{{
-                    v$.clientName.$errors[0].$message
-                  }}</span>
-                </label>
-              </div> -->
+            <h5 class="mb-2 w-fit text-primary dark:text-dark-primary">Contacto 1</h5>
+
             <BaseInput
               label="Nombre"
               placeholder="Escribe aqui..."
@@ -498,23 +499,6 @@ function discardInvoice() {
               }}</span>
             </BaseInput>
 
-            <!-- <div class="form-control flex flex-col">
-                <label for="clientEmail" class="dark:text-light-strong"
-                  >Correo electrónico<span class="text-red-500">*</span></label
-                >
-                <input
-                  class="input-primary input w-full bg-light-medium"
-                  type="text"
-                  id="clientEmail"
-                  v-model="invoiceObject.clientEmail"
-                  @change="v$.clientEmail.$touch"
-                />
-                <label class="label">
-                  <span v-if="v$.clientEmail.$error" class="label-text-alt text-red-500">{{
-                    v$.clientEmail.$errors[0].$message
-                  }}</span>
-                </label>
-              </div> -->
             <BaseInput
               label="Correo electrónico"
               placeholder="Ej. correo@ejemplo.com"
@@ -528,19 +512,8 @@ function discardInvoice() {
             </BaseInput>
           </div>
           <div class="mb-2 w-1/2">
-            <h5 class="mb-2 w-fit text-light-primary dark:text-dark-primary">Contacto 2</h5>
-            <!-- <div class="form-control mb-2 flex flex-col">
-                <label for="clientName" class="dark:text-light-strong">Nombre</label>
-                <input
-                  class="input-primary input w-full bg-light-medium"
-                  type="text"
-                  id="clientName"
-                  v-model="invoiceObject.clientName2"
-                />
-                <label class="label">
-                  <span v-if="v$.clientName.$error" class="label-text-alt text-transparent">.</span>
-                </label>
-              </div> -->
+            <h5 class="mb-2 w-fit text-primary dark:text-dark-primary">Contacto 2</h5>
+
             <BaseInput
               label="Nombre"
               placeholder="Escribe aqui..."
@@ -549,22 +522,7 @@ function discardInvoice() {
             >
               <span v-if="v$.clientName.$error" class="label-text-alt text-transparent">.</span>
             </BaseInput>
-            <!-- 
-              <div class="form-control flex flex-col">
-                <label for="clientEmail" class="dark:text-light-strong">Correo electrónico</label>
-                <input
-                  class="input-primary input w-full bg-light-medium"
-                  type="text"
-                  id="clientEmail"
-                  v-model="invoiceObject.clientEmail2"
-                  @change="v$.clientEmail2.$touch"
-                />
-                <label class="label">
-                  <span v-if="v$.clientEmail2.$error" class="label-text-alt text-red-500">{{
-                    v$.clientEmail2.$errors[0].$message
-                  }}</span>
-                </label>
-              </div> -->
+
             <BaseInput
               label="Correo electrónico"
               placeholder="Ej. correo@ejemplo.com"
@@ -578,31 +536,12 @@ function discardInvoice() {
           </div>
         </div>
 
-        <!-- <div class="form-control">
-          <label for="condition" class="">Condición<span class="text-red-500">*</span></label>
-          <select
-            class="input-primary input w-full bg-light-medium"
-            v-model="invoiceObject.condition"
-            name="condition"
-            id="condition"
-          >
-            <option value="nuevo" class="dark:text-light-strong">Nuevo</option>
-            <option value="usado" class="dark:text-light-strong">Usado</option>
-            <option value="refurbished" class="dark:text-light-strong">Refurbished</option>
-          </select>
-          <label class="label">
-            <span v-if="v$.condition.$error" class="label-text-alt text-red-500">{{
-              v$.condition.$errors[0].$message
-            }}</span>
-          </label>
-        </div> -->
-
         <div class="divider"></div>
 
         <div class="flex flex-col">
           <div class="mt-8 hidden lg:block">
             <h3
-              class="mb-4 w-fit border-b border-dark-medium text-lg font-bold text-light-primary dark:border-light-medium dark:text-dark-primary"
+              class="mb-4 w-fit border-b border-dark-medium text-lg font-bold text-primary dark:border-light-medium dark:text-dark-primary"
             >
               Artículos
             </h3>
@@ -639,28 +578,42 @@ function discardInvoice() {
                       />
                     </div>
                   </td>
-                  <td class="w-4/12">
-                    <div class="form-control">
+                  <td class="relative w-4/12">
+                    <div class="form-control relative">
                       <input
-                        class="input w-full bg-light-medium focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
+                        class="input w-full bg-light-medium pr-20 focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
                         type="text"
                         v-model.trim="item.itemDescription"
                         placeholder="Escribe aqui..."
+                        :style="{ paddingRight: '2rem' }"
                       />
+                      <label
+                        for="my-modal-3"
+                        class="absolute bottom-0 right-1 top-0 flex cursor-pointer items-center"
+                        ><Icon name="material-symbols:expand-content" size="30"
+                      /></label>
                     </div>
-                    <!-- <select
-                      class="input-primary input w-full bg-light-medium"
-                      v-model="item.itemDescription"
-                      name="condition"
-                      id="condition"
-                    >
-                      <option value="N/A" class="dark:text-light-strong">N/A</option>
-                      <option value="Nuevo" class="dark:text-light-strong">Nuevo</option>
-                      <option value="Usado" class="dark:text-light-strong">Usado</option>
-                      <option value="Refurbished" class="dark:text-light-strong">
-                        Refurbished
-                      </option>
-                    </select> -->
+                    <div>
+                      <input type="checkbox" id="my-modal-3" class="modal-toggle" />
+                      <div class="modal backdrop-blur-sm">
+                        <div class="modal-box relative dark:bg-dark-strong">
+                          <label
+                            for="my-modal-3"
+                            class="btn-secondary btn-sm btn-circle btn absolute right-2 top-2"
+                            >✕</label
+                          >
+                          <h3 class="mb-4 text-lg font-bold text-primary dark:text-dark-primary">
+                            Descripción del artículo
+                          </h3>
+                          <textarea
+                            v-model.trim="item.itemDescription"
+                            placeholder="Escribe aqui..."
+                            class="input h-32 min-h-[4rem] w-full rounded-[12px] bg-light-medium py-4"
+                          >
+                          </textarea>
+                        </div>
+                      </div>
+                    </div>
                   </td>
                   <td class="w-1/12">
                     <input
@@ -705,7 +658,7 @@ function discardInvoice() {
 
             <section
               @click="addNewInvoiceItem"
-              class="btn mx-auto flex w-fit gap-2 border-none bg-primary text-white hover:bg-primary/50 dark:bg-primary/50 dark:hover:bg-primary"
+              class="btn-secondary btn mx-auto flex w-fit gap-2 text-white dark:border-dark-secondary dark:bg-dark-secondary"
             >
               <i class="fa-solid fa-plus"></i>
               Agregar artículo
@@ -761,23 +714,7 @@ function discardInvoice() {
                           />
                         </label>
                       </div>
-                      <!-- <div class="form-control">
-                        <label class="input-group w-full"
-                          ><span
-                            class="w-32 bg-light-strong text-dark-medium dark:bg-dark-medium dark:text-light-medium"
-                            >Condición
-                          </span>
 
-                          <select class="input-bordered input w-full" v-model="item.condition">
-                            <option value="N/A" class="dark:text-light-strong">N/A</option>
-                            <option value="Nuevo" class="dark:text-light-strong">Nuevo</option>
-                            <option value="Usado" class="dark:text-light-strong">Usado</option>
-                            <option value="Refurbished" class="dark:text-light-strong">
-                              Refurbished
-                            </option>
-                          </select>
-                        </label>
-                      </div> -->
                       <div class="form-control">
                         <label class="input-group">
                           <span
@@ -841,7 +778,7 @@ function discardInvoice() {
             <button
               type="button"
               @click="addNewInvoiceItem"
-              class="btn mx-auto mt-4 flex w-fit gap-2 border-none bg-primary text-white hover:bg-primary/50 dark:bg-primary/50 dark:hover:bg-primary"
+              class="btn-secondary btn mx-auto mt-4 flex w-fit gap-2 text-white dark:border-dark-secondary dark:bg-dark-secondary"
             >
               <i class="fa-solid fa-plus"></i>
               Agregar artículo
@@ -909,7 +846,7 @@ function discardInvoice() {
               <span>Cancelar</span>
             </button>
             <button
-              class="btn border-none bg-primary text-light-medium hover:bg-primary/50 focus:outline-primary dark:bg-primary/50 dark:hover:bg-primary lg:w-56"
+              class="btn-secondary btn text-light-medium dark:border-dark-secondary dark:bg-dark-secondary lg:w-56"
             >
               <LoadingSpinner v-if="isLoading" />
               <span v-else>{{ edit ? 'Actualizar Cotización' : 'Crear Cotización' }}</span>
@@ -923,7 +860,7 @@ function discardInvoice() {
 
 <style>
 .v-calendar .input-field svg.datepicker {
-  @apply fill-primary dark:fill-primary/50;
+  @apply fill-secondary dark:fill-dark-secondary;
 }
 
 .v-calendar .calendar .selected-field,

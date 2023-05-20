@@ -36,7 +36,7 @@ definePageMeta({
       >
         <label ref="backBtn" for="my-modal-6" class="hidden"></label>
         <Icon
-          class="text-2xl text-light-primary dark:text-dark-primary"
+          class="text-2xl text-primary dark:text-dark-primary"
           name="heroicons-solid:arrow-left"
         />
         <span class="text-xs text-dark-medium dark:text-light-strong">Regresar</span>

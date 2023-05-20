@@ -6,7 +6,6 @@ import type { InvoiceOutline } from '@/types/invoice';
 export const useStore = defineStore('main', () => {
   const isLoading = ref(false);
   const isLoadingFull = ref(true);
-  // const openModal = ref(false);
 
   const invoicesLoaded = ref(false);
   const invoiceDialog = ref(false);
@@ -42,8 +41,6 @@ export const useStore = defineStore('main', () => {
     invoicesLoaded,
     invoiceDialog,
     editInvoice,
-    // customModal,
-    // openModal,
     modalType,
     backBtn,
   };

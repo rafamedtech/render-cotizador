@@ -58,12 +58,12 @@ definePageMeta({
     class="custom-container grid place-content-center pb-[8rem]"
     :style="{ 'padding-top': '40px' }"
   >
-    <h1 class="text-2xl text-primary dark:text-primary/50 lg:text-3xl">Inicio</h1>
+    <h1 class="text-2xl text-primary dark:text-dark-primary lg:text-3xl">Inicio</h1>
     <div
       class="stats stats-vertical my-4 min-w-[20rem] border border-light-strong transition-all delay-200 lg:stats-horizontal dark:border-dark-medium dark:bg-dark-strong md:min-w-[30rem] lg:w-[50rem]"
     >
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Total</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Total</div>
         <div class="stat-value text-dark-medium dark:text-light-strong">
           {{ invoices?.length }}
         </div>
@@ -71,7 +71,7 @@ definePageMeta({
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Vendidas</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Vendidas</div>
         <div class="stat-value text-dark-medium dark:text-light-strong">
           {{ vendidas?.length }}
         </div>
@@ -79,7 +79,7 @@ definePageMeta({
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Pendientes</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Pendientes</div>
         <div class="stat-value text-dark-medium dark:text-light-strong">
           {{ pendientes?.length }}
         </div>
@@ -87,7 +87,7 @@ definePageMeta({
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Canceladas</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Canceladas</div>
         <div class="stat-value text-dark-medium dark:text-light-strong">
           {{ canceladas?.length }}
         </div>
@@ -99,7 +99,7 @@ definePageMeta({
       class="stats stats-vertical mb-4 border border-light-strong lg:stats-horizontal dark:border-dark-medium dark:bg-dark-strong"
     >
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Total Vendido</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Total Vendido</div>
         <div class="stat-value text-dark-medium dark:text-light-medium">
           {{
             new Intl.NumberFormat('es-MX', {
@@ -112,7 +112,7 @@ definePageMeta({
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Total Pendiente</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Total Pendiente</div>
         <div class="stat-value text-dark-medium dark:text-light-medium">
           {{
             new Intl.NumberFormat('es-MX', {
@@ -125,7 +125,7 @@ definePageMeta({
       </div>
 
       <div class="stat place-items-center">
-        <div class="stat-title text-primary dark:text-primary/50">Total Cancelado</div>
+        <div class="stat-title text-primary dark:text-dark-primary">Total Cancelado</div>
         <div class="stat-value text-dark-medium dark:text-light-medium">
           {{
             new Intl.NumberFormat('es-MX', {
@@ -146,20 +146,20 @@ definePageMeta({
       >
         <div class="stat gap-2 md:flex" v-for="contact in uniqueContacts">
           <div class="w-1/3 lg:w-3/6">
-            <div class="stat-title text-base text-primary">Empresa</div>
+            <div class="stat-title text-base text-primary dark:text-dark-primary">Empresa</div>
             <div class="stat-value text-lg dark:text-light-medium">
               {{ contact?.clientCompany }}
             </div>
           </div>
           <div class="w-1/3 lg:w-2/6">
-            <div class="stat-title text-base text-primary">Contacto</div>
+            <div class="stat-title text-base text-primary dark:text-dark-primary">Contacto</div>
             <div class="stat-value text-lg text-dark-medium dark:text-light-medium">
               {{ contact?.clientName }}
             </div>
           </div>
           <div class="w-full lg:w-1/6">
             <button
-              class="btn w-full border-primary bg-primary text-xs text-light-medium hover:border-primary hover:bg-primary/50"
+              class="btn-secondary btn w-full text-xs text-light-medium dark:border-dark-secondary dark:bg-dark-secondary"
               @click="clientInvoices(contact)"
             >
               Ver cotizaciones
@@ -168,7 +168,7 @@ definePageMeta({
         </div>
       </div>
       <div
-        class="stats min-h-16 stats-vertical grid w-full min-w-full max-w-2xl place-items-center border border-light-strong text-primary dark:border-dark-medium dark:bg-dark-strong dark:text-primary/50"
+        class="stats min-h-16 stats-vertical grid w-full min-w-full max-w-2xl place-items-center border border-light-strong text-primary dark:border-dark-medium dark:bg-dark-strong dark:text-dark-primary"
         v-else
       >
         No hay clientes

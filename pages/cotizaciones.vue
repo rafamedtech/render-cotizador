@@ -86,25 +86,6 @@ function searchInvoices() {
       );
     });
   }
-  // if (filterQuery.value === 'Todas' && !searchDate.value) {
-  //   filteredInvoices.value = invoices.value.filter((invoice) => {
-  //     return invoice.clientCompany.toLowerCase().includes(searchQuery.value.toLowerCase());
-  //   });
-  // } else {
-  //   filteredInvoices.value = invoices.value.filter((invoice) => {
-  //     return (
-  //       invoice.clientCompany.toLowerCase().includes(searchQuery.value.toLowerCase()) &&
-  //       invoice.status === filterQuery.value
-  //     );
-  //   });
-  // }
-
-  // invoices.value.forEach((invoice) =>
-  //   console.log(
-  //     new Date(invoice.invoiceDate).toLocaleString('es-MX', dateOptions) ===
-  //       new Date(searchDate.value).toLocaleString('es-MX', dateOptions)
-  //   )
-  // );
 
   if (filteredInvoices.value.length === 0) {
     return (filterResults.value = false);
@@ -149,21 +130,20 @@ function toggleFilter() {
 
 const dateOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
-const loadInvoices = ref(false)
- function refreshInvoices() {
-loadInvoices.value = true
-isLoading.value = true
-invoicesLoaded.value = false
-sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+const loadInvoices = ref(false);
+function refreshInvoices() {
+  loadInvoices.value = true;
+  isLoading.value = true;
+  invoicesLoaded.value = false;
+  sessionStorage.clear();
+  // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
 
-
-
-setTimeout(async () => {
-  await getInvoices()
-  loadInvoices.value = false
-  isLoading.value = false
-  invoicesLoaded.value = true
-}, 2000);
+  setTimeout(async () => {
+    await getInvoices();
+    loadInvoices.value = false;
+    isLoading.value = false;
+    invoicesLoaded.value = true;
+  }, 2000);
 }
 
 useHead({
@@ -181,18 +161,16 @@ definePageMeta({
       <transition appear @before-enter="beforeEnter" @enter="enter">
         <div class="mb-8 flex justify-between">
           <div class="left flex flex-col">
-            <h1 class="text-2xl text-light-primary dark:text-dark-primary lg:text-3xl">
-              Cotizaciones
-            </h1>
+            <h1 class="text-2xl text-primary dark:text-dark-primary lg:text-3xl">Cotizaciones</h1>
             <span class="text-sm text-dark-strong dark:text-light-strong"
-              >Tienes (<span class="text-primary dark:text-primary/50">{{ invoices.length }}</span
+              >Tienes (<span class="text-primary dark:text-dark-primary">{{ invoices.length }}</span
               >) en total</span
             >
           </div>
           <div class="right flex flex-col-reverse items-end gap-4 lg:flex-row lg:items-center">
             <label ref="invoiceBtn" for="my-modal-3" class="hidden"> </label>
             <button
-              class="btn-primary btn-square btn w-fit px-2 text-light-medium hover:border-primary/50 hover:bg-primary/50 dark:border-primary/50 dark:bg-primary/50 dark:hover:bg-primary"
+              class="btn-secondary btn-square btn w-fit px-2 text-light-medium dark:border-dark-secondary dark:bg-dark-secondary"
               @click="newInvoice"
             >
               <Icon name="icon-park-outline:plus" class="text-2xl" />
@@ -212,7 +190,7 @@ definePageMeta({
         </section>
 
         <section
-          class="relative mt-8 hidden w-full items-center justify-between rounded-2xl px-4 py-7 text-light-primary transition-all duration-300 focus:outline-primary dark:text-dark-primary lg:flex lg:px-8"
+          class="relative mt-8 hidden w-full items-center justify-between rounded-2xl px-4 py-7 text-primary transition-all duration-300 focus:outline-primary dark:text-dark-primary lg:flex lg:px-8"
         >
           <p class="hidden w-[5%] lg:block lg:w-[10%]">ID</p>
           <p class="hidden w-[20%] lg:block">Fecha</p>
@@ -220,17 +198,26 @@ definePageMeta({
           <p class="hidden w-[25%] lg:block">Total</p>
           <p class="hidden w-[20%] lg:block">Status</p>
           <Icon
-              class="cursor-pointer text-2xl text-accent absolute right-2"
-              :class="{ 'animate-spin': loadInvoices }"
-              name="ri:refresh-line"
-              @click="refreshInvoices"
-            />
+            class="absolute right-2 cursor-pointer text-2xl text-secondary dark:text-dark-secondary"
+            :class="{ 'animate-spin': loadInvoices }"
+            name="ri:refresh-line"
+            @click="refreshInvoices"
+          />
+        </section>
+
+        <section class="mt-4 flex justify-center lg:hidden">
+          <Icon
+            class="cursor-pointer text-4xl text-accent"
+            :class="{ 'animate-spin': loadInvoices }"
+            name="ri:refresh-line"
+            @click="refreshInvoices"
+          />
         </section>
 
         <TransitionGroup
           v-if="invoicesLoaded && filterResults && invoices"
           tag="section"
-          class="mt-8 flex flex-col items-center gap-10 lg:mt-0 lg:gap-4"
+          class="mt-4 flex flex-col items-center gap-10 lg:mt-0 lg:gap-4"
           appear
           name="slide-up"
         >

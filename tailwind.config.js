@@ -21,18 +21,15 @@ module.exports = {
         pinterest: 'rgb(0 0 0 / 10%) 0px 5px 20px 0px',
       },
       colors: {
-        // primary: '#CD104D',
-        // primary: '#9ca3af',
         primary: '#EF477A',
         secondary: '#7F2E84',
-        accent: '#5C4FA1',
         light: {
-          primary: '#EF477A',
           strong: '#cacaca',
           medium: '#f2f2f2',
         },
         dark: {
           primary: '#EE798A',
+          secondary: '#5C4FA1',
           strong: '#181818',
           medium: '#222222',
         },
@@ -57,9 +54,7 @@ module.exports = {
       {
         mytheme: {
           primary: '#EF477A',
-          // primary: '#ee798a',
-          secondary: '#ef477a',
-          // primary: '#9ca3af',
+          secondary: '#7F2E84',
           neutral: '#181818',
         },
       },

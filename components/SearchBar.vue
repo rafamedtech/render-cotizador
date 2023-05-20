@@ -88,7 +88,7 @@ function toggleSearch() {
     />
     <div class="flex w-full flex-col">
       <label class="label">
-        <span class="label-text text-dark-strong dark:text-light-medium">Buscar por cliente</span>
+        <span class="label-text text-primary dark:text-dark-primary">Buscar por cliente</span>
       </label>
       <div class="dropdown-bottom dropdown-end form-control dropdown relative w-full">
         <div class="relative">
@@ -134,7 +134,7 @@ function toggleSearch() {
         <div v-if="filterDetails" class="mt-2 w-full flex-col gap-x-4 lg:grid lg:grid-cols-2">
           <div class="form-control mb-2 w-full flex-col justify-center gap-1 lg:mb-0">
             <label class="label m-0">
-              <span class="label-text text-dark-strong dark:text-light-medium">Filtrar etapa</span>
+              <span class="label-text text-primary dark:text-dark-primary">Filtrar etapa</span>
             </label>
             <select
               v-model="filterQuery"
@@ -155,7 +155,7 @@ function toggleSearch() {
           <div class="form-control w-full flex-col justify-center gap-1">
             <!-- <label for="paymentDueDate" class="dark:text-light-strong">Fecha</label> -->
             <label class="label m-0">
-              <span class="label-text text-dark-strong dark:text-light-medium">Fecha</span>
+              <span class="label-text text-primary dark:text-dark-primary">Fecha</span>
             </label>
             <ClientOnly>
               <VueDatepickerUi
@@ -175,7 +175,7 @@ function toggleSearch() {
       >
         <button
           type="submit"
-          class="btn-primary btn w-full text-light-medium hover:border-primary/50 hover:bg-primary/50 dark:border-primary/50 dark:bg-primary/50 dark:hover:bg-primary"
+          class="btn-secondary btn w-full text-light-medium dark:border-dark-secondary dark:bg-dark-secondary"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -193,14 +193,6 @@ function toggleSearch() {
           </svg>
           Buscar
         </button>
-        <!-- <button
-              type="button"
-              class="btn border-light-strong bg-light-strong text-dark-medium hover:border-light-strong hover:bg-light-strong hover:text-primary dark:border-primary/50 dark:bg-primary/50 dark:hover:bg-primary dark:hover:text-light-medium lg:w-auto"
-              @click="clearSearch"
-            >
-              <Icon name="heroicons-solid:x-mark" class="text-2xl" />
-              Reset
-            </button> -->
       </section>
     </div>
   </form>

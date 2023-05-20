@@ -6,14 +6,12 @@ const { modalType, backBtn } = storeToRefs(store);
 const isDark = useDark();
 const toggleDark = useToggle(isDark);
 
-// const modalBtn = ref<HTMLInputElement | null>(null);
 const mobileMenu = ref(false);
 function toggleMenu() {
   mobileMenu.value = !mobileMenu.value;
 }
 
 const userLogout = () => {
-  // modalType.value = Modal.Logout;
   store.$patch({
     modalType: Modal.Logout,
   });
@@ -39,7 +37,7 @@ const userLogout = () => {
         <label ref="modalBtn" for="my-modal-6" class="hidden"></label>
         <Icon
           name="material-symbols:logout-rounded"
-          class="text-3xl text-accent dark:text-accent"
+          class="text-3xl text-secondary dark:text-dark-secondary"
         />
         <p class="text-xs dark:text-light-medium">Cerrar sesión</p>
       </button>
@@ -51,12 +49,18 @@ const userLogout = () => {
           class="mb-8 flex cursor-pointer items-center gap-2 md:mb-4"
         >
           <label ref="modalBtn" for="my-modal-6" class="hidden"></label>
-          <Icon name="material-symbols:home-outline-rounded" class="text-3xl text-accent/50" />
+          <Icon
+            name="material-symbols:home-outline-rounded"
+            class="text-3xl text-secondary dark:text-dark-secondary"
+          />
           <p class="text-xs dark:text-light-medium">Inicio</p>
         </NuxtLink>
         <NuxtLink :to="{ name: 'cotizaciones' }" class="flex cursor-pointer items-center gap-2">
           <label ref="modalBtn" for="my-modal-6" class="hidden"></label>
-          <Icon name="tabler:file-invoice" class="text-3xl text-accent/50" />
+          <Icon
+            name="tabler:file-invoice"
+            class="text-3xl text-secondary dark:text-dark-secondary"
+          />
           <p class="text-xs dark:text-light-medium">Cotizaciones</p>
         </NuxtLink>
       </section>
@@ -73,7 +77,7 @@ const userLogout = () => {
                 ? 'material-symbols:lightbulb-circle-outline-rounded'
                 : 'material-symbols:nightlight-badge-rounded'
             "
-            class="text-3xl text-primary"
+            class="text-3xl text-primary dark:text-dark-primary"
           />
           <p class="text-xs dark:text-light-medium">{{ isDark ? 'Light' : 'Dark' }} Mode</p>
         </button>
@@ -86,7 +90,7 @@ const userLogout = () => {
         <label ref="modalBtn" for="my-modal-6" class="hidden"></label>
         <Icon
           name="material-symbols:logout-rounded"
-          class="text-3xl text-accent dark:text-accent/50"
+          class="text-3xl text-secondary dark:text-dark-secondary"
         />
         <p class="text-xs dark:text-light-medium">Cerrar sesión</p>
       </button>
@@ -126,17 +130,17 @@ const userLogout = () => {
 <style scoped>
 .nav-links a.router-link-exact-active svg,
 .nav-links a.router-link-active svg {
-  @apply active text-primary;
+  @apply active text-primary dark:text-dark-primary;
 }
 
 .nav-links a.router-link-exact-active p,
 .nav-links a.router-link-active p {
-  @apply active border-b border-primary;
+  @apply active border-b border-primary dark:border-dark-primary;
 }
 
 .btm-nav .nav-links a.router-link-exact-active span,
 .btm-nav .nav-links a.router-link-active span {
-  @apply active text-primary;
+  @apply active text-primary dark:text-dark-primary;
 }
 
 .router-link-exact-active,
@@ -145,6 +149,6 @@ const userLogout = () => {
 }
 
 .active {
-  @apply border-primary bg-transparent;
+  @apply border-primary bg-transparent dark:border-dark-primary;
 }
 </style>
