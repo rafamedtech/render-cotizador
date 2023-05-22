@@ -487,11 +487,11 @@ useHead({
           Artículos
         </h3>
         <section
-          class="mx-auto flex items-center justify-center text-secondary dark:text-dark-secondary lg:hidden"
+          class="mx-auto mb-2 flex items-center justify-center gap-4 text-secondary dark:text-dark-secondary lg:hidden"
         >
-          <Icon name="material-symbols:chevron-left-rounded" size="32" />
+          <Icon name="material-symbols:arrow-back-rounded" size="32" class="animate-ping" />
           <span class="text-primary dark:text-dark-primary">Desliza</span>
-          <Icon name="material-symbols:chevron-right-rounded" size="32" />
+          <Icon name="material-symbols:arrow-forward-rounded" size="32" class="animate-ping" />
         </section>
         <div
           class="carousel-center carousel rounded-box max-w-md space-x-4 bg-light-strong p-4 dark:bg-dark-strong"
@@ -551,7 +551,7 @@ useHead({
               Condiciones del servicio
             </h3>
             <ul
-              class="w-[50ch] text-[8px] italic text-dark-strong dark:text-light-strong print:w-full print:text-[6px]"
+              class="w-full text-[8px] italic text-dark-strong dark:text-light-strong print:w-full print:text-[6px] lg:w-[50ch]"
             >
               <li>- Precio en pesos mexicanos (mxn)</li>
               <li>- Horarios de atención: Lunes a viernes de 9 am a 7pm - Sábados de 9am a 1pm</li>
@@ -561,15 +561,15 @@ useHead({
                 - Toda solicitud de diseño, producción de vídeo, edición web, fotografía, etc. Se
                 pide con un mínimo de 72 horas de anticipación (sujeto a disponibilidad)
               </li>
-              <li class="font-bold text-accent dark:text-primary">
+              <li class="font-bold text-secondary dark:text-primary">
                 ¡GRACIAS POR CONFIAR EN RENDER!
               </li>
             </ul>
           </div>
-          <div class="w-1/2 print:w-2/5">
+          <div class="w-full print:w-2/5 lg:w-1/2">
             <h3 class="mb-2 w-fit text-primary dark:text-dark-primary print:text-xs">Notas:</h3>
             <p
-              class="h-12 w-[50ch] overflow-hidden text-[8px] uppercase italic text-dark-strong dark:text-light-strong print:w-full print:text-[6px]"
+              class="h-12 w-full overflow-hidden text-[8px] uppercase italic text-dark-strong dark:text-light-strong print:w-full print:text-[6px] lg:w-[50ch]"
             >
               <!-- Notas -->
               {{ currentInvoice?.notes }}

@@ -2,9 +2,6 @@
 // Imports
 import noResults from '@/assets/images/no-results.svg';
 
-// import VueDatepickerUi from 'vue-datepicker-ui';
-// import 'vue-datepicker-ui/lib/vuedatepickerui.css';
-
 const store = useStore();
 const {
   isLoading,
@@ -39,12 +36,6 @@ onMounted(async () => {
     searchInvoices();
   }
 });
-
-// watchEffect(() => {
-//   console.log(new Date(searchDate.value).toLocaleString('es-MX', dateOptions));
-// });
-
-// const dateSearch = computed(() => new Date(searchDate.value).toLocaleString('es-MX', dateOptions));
 
 const searchSubmit = ref(false);
 const filterStatus = ref('Todas');
@@ -105,21 +96,21 @@ const newInvoice = () => {
   return navigateTo('nueva-cotizacion');
 };
 
-const beforeEnter = (el) => {
-  console.log('beforeEnter');
-  el.style.transform = 'translateY(100px)';
-  el.style.opacity = 0;
-};
+// const beforeEnter = (el) => {
+//   console.log('beforeEnter');
+//   el.style.transform = 'translateY(100px)';
+//   el.style.opacity = 0;
+// };
 
-const enter = (el, done) => {
-  gsap.to(el, {
-    opacity: 1,
-    y: 0,
-    duration: 0.6,
-    onComplete: done,
-    delay: el.dataset.index * 0.2,
-  });
-};
+// const enter = (el, done) => {
+//   gsap.to(el, {
+//     opacity: 1,
+//     y: 0,
+//     duration: 0.6,
+//     onComplete: done,
+//     delay: el.dataset.index * 0.2,
+//   });
+// };
 
 const toggleMenu = ref(false);
 const filterMenuRef = ref(null);
@@ -136,7 +127,6 @@ function refreshInvoices() {
   isLoading.value = true;
   invoicesLoaded.value = false;
   sessionStorage.clear();
-  // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
 
   setTimeout(async () => {
     await getInvoices();
@@ -158,28 +148,26 @@ definePageMeta({
 <template>
   <div class="custom-container" :style="{ 'padding-top': '40px' }">
     <div>
-      <transition appear @before-enter="beforeEnter" @enter="enter">
-        <div class="mb-8 flex justify-between">
-          <div class="left flex flex-col">
-            <h1 class="text-2xl text-primary dark:text-dark-primary lg:text-3xl">Cotizaciones</h1>
-            <span class="text-sm text-dark-strong dark:text-light-strong"
-              >Tienes (<span class="text-primary dark:text-dark-primary">{{ invoices.length }}</span
-              >) en total</span
-            >
-          </div>
-          <div class="right flex flex-col-reverse items-end gap-4 lg:flex-row lg:items-center">
-            <label ref="invoiceBtn" for="my-modal-3" class="hidden"> </label>
-            <button
-              class="btn-secondary btn-square btn w-fit px-2 text-light-medium dark:border-dark-secondary dark:bg-dark-secondary"
-              @click="newInvoice"
-            >
-              <Icon name="icon-park-outline:plus" class="text-2xl" />
-
-              <span>Cotización</span>
-            </button>
-          </div>
+      <div class="mb-8 flex justify-between">
+        <div class="left flex flex-col">
+          <h1 class="text-2xl text-primary dark:text-dark-primary lg:text-3xl">Cotizaciones</h1>
+          <span class="text-sm text-dark-strong dark:text-light-strong"
+            >Tienes (<span class="text-primary dark:text-dark-primary">{{ invoices.length }}</span
+            >) en total</span
+          >
         </div>
-      </transition>
+        <div class="right flex flex-col-reverse items-end gap-4 lg:flex-row lg:items-center">
+          <label ref="invoiceBtn" for="my-modal-3" class="hidden"> </label>
+          <button
+            class="btn-secondary btn-square btn w-fit px-2 text-light-medium dark:border-dark-secondary dark:bg-dark-secondary"
+            @click="newInvoice"
+          >
+            <Icon name="icon-park-outline:plus" class="text-2xl" />
+
+            <span>Cotización</span>
+          </button>
+        </div>
+      </div>
 
       <!-- Invoices -->
 
