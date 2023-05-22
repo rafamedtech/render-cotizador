@@ -19,15 +19,7 @@ const invoiceItemList = ref<InvoiceItems[] | null>(null);
 const { isLoading, isLoadingFull, backBtn, modalType } = storeToRefs(store);
 const user = useSupabaseUser();
 
-// onBeforeMount(() => {
-// });
-// isLoadingFull.value = false;
-
-// watchEffect(() => {
-//   if (currentInvoice.value) {
-//     isLoadingFull.value = false;
-//   }
-// });
+const swipeAnimation = ref(false);
 
 onMounted(async () => {
   // const { params } = useRoute();
@@ -37,6 +29,7 @@ onMounted(async () => {
   currentInvoice.value = invoiceCurrent.value as InvoiceWithItems;
   invoiceItemList.value = currentInvoice.value?.invoiceItems;
   isLoadingFull.value = false;
+  swipeAnimation.value = true;
 });
 
 const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
@@ -487,6 +480,7 @@ useHead({
           Artículos
         </h3>
         <section
+          v-if="swipeAnimation"
           class="mx-auto mb-2 flex items-center justify-center gap-4 text-secondary dark:text-dark-secondary lg:hidden"
         >
           <Icon name="material-symbols:arrow-back-rounded" size="32" class="animate-ping" />
@@ -637,6 +631,49 @@ useHead({
 </template>
 
 <style lang="scss" scoped>
+@keyframes ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+@keyframes custom-ping {
+  15% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  30% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+  45% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  60% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+  75% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  90% {
+    transform: scale(1.3);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-ping {
+  animation: custom-ping 5s linear;
+}
+
 .custom-container {
   @apply print:m-0 print:min-h-full print:p-0;
 }
