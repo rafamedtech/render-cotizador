@@ -69,7 +69,7 @@ export const useInvoice = async (id?: string) => {
   // - Edit currentInvoice
   async function updateInvoiceOnDb(invoice: InvoiceDraft) {
     isLoading.value = true;
-    sessionStorage.removeItem(`/api/cotizacion/${invoice.invId}`);
+    // sessionStorage.removeItem(`/api/cotizacion/${invoice.invId}`);
     // sessionStorage.setItem(`/api/cotizacion/${invoice.invId}`, JSON.stringify(invoice));
     sessionStorage.removeItem('/api/invoices');
     // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
@@ -109,7 +109,7 @@ export const useInvoice = async (id?: string) => {
   async function updateStatusOnDb(invoice: InvoiceDraft | null | undefined) {
     // sessionStorage.setItem(`/api/cotizacion/${invoice?.invId}`, JSON.stringify(invoice));
     // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
-    sessionStorage.removeItem(`/api/cotizacion/${invoice?.invId}`);
+    // sessionStorage.removeItem(`/api/cotizacion/${invoice?.invId}`);
     sessionStorage.removeItem('/api/invoices');
     // sessionStorage.clear();
     try {
