@@ -7,17 +7,21 @@ export const useInvoice = async (id?: string) => {
 
   const currentInvoice = ref<InvoiceWithItems | null | undefined>(null);
   async function getCurrentInvoice(id: string) {
-    const data = await useFetchWithCache<InvoiceWithItems>(`/api/cotizacion/${id}`);
+    try {
+      const { data, error } = await useFetch(`/api/cotizacion/${id}`);
 
-    // if (error.value) {
-    //   throw createError({
-    //     ...error.value,
-    //     statusMessage: 'Could not fetch data',
-    //   });
-    // }
+      currentInvoice.value = data.value as InvoiceWithItems;
 
-    currentInvoice.value = data.value as InvoiceWithItems;
+      if (error) throw error;
+    } catch (error) {
+      console.log(error);
+    }
   }
+  // async function getCurrentInvoice(id: string) {
+  //   const data = await useFetchWithCache<InvoiceWithItems>(`/api/cotizacion/${id}`);
+
+  //   currentInvoice.value = data.value as InvoiceWithItems;
+  // }
 
   if (id) {
     await getCurrentInvoice(id as string);
@@ -27,7 +31,8 @@ export const useInvoice = async (id?: string) => {
   const { getInvoices } = await useInvoices();
   async function newInvoice(invoice: InvoiceDraft) {
     isLoading.value = true;
-    sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+    sessionStorage.removeItem('/api/invoices');
+    // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
 
     try {
       await $fetch(`/api/cotizacion/new`, {
@@ -52,8 +57,6 @@ export const useInvoice = async (id?: string) => {
         alertType.value = '';
         alertMsg.value = '';
       }, 4000);
-
-      // await navigateTo('/');
     } catch (error) {
       console.error(error);
       isLoading.value = false;
@@ -66,8 +69,11 @@ export const useInvoice = async (id?: string) => {
   // - Edit currentInvoice
   async function updateInvoiceOnDb(invoice: InvoiceDraft) {
     isLoading.value = true;
-    sessionStorage.setItem(`/api/cotizacion/${invoice.invId}`, JSON.stringify(invoice));
-    sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+    sessionStorage.removeItem(`/api/cotizacion/${invoice.invId}`);
+    // sessionStorage.setItem(`/api/cotizacion/${invoice.invId}`, JSON.stringify(invoice));
+    sessionStorage.removeItem('/api/invoices');
+    // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+    // sessionStorage.clear();
     try {
       await $fetch('/api/cotizacion/:id/update', {
         method: 'PUT',
@@ -101,8 +107,11 @@ export const useInvoice = async (id?: string) => {
 
   // Update invoice status
   async function updateStatusOnDb(invoice: InvoiceDraft | null | undefined) {
-    sessionStorage.setItem(`/api/cotizacion/${invoice?.invId}`, JSON.stringify(invoice));
-    sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+    // sessionStorage.setItem(`/api/cotizacion/${invoice?.invId}`, JSON.stringify(invoice));
+    // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+    sessionStorage.removeItem(`/api/cotizacion/${invoice?.invId}`);
+    sessionStorage.removeItem('/api/invoices');
+    // sessionStorage.clear();
     try {
       await $fetch(`/api/cotizacion/${invoice?.id}/status`, {
         method: 'PUT',
@@ -135,7 +144,8 @@ export const useInvoice = async (id?: string) => {
   // - Delete currentInvoice
   async function deleteInvoiceOnDb(id: number | undefined) {
     isLoading.value = true;
-    sessionStorage.setItem('/api/invoices', JSON.stringify(null));
+    sessionStorage.removeItem('/api/invoices');
+    // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
     try {
       await $fetch(`/api/cotizacion/${id}/delete`, {
         method: 'DELETE',
