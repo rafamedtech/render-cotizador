@@ -7,21 +7,17 @@ export const useInvoice = async (id?: string) => {
 
   const currentInvoice = ref<InvoiceWithItems | null | undefined>(null);
   async function getCurrentInvoice(id: string) {
-    try {
-      const { data, error } = await useFetch(`/api/cotizacion/${id}`);
+    const { data } = await useFetch<InvoiceWithItems>(`/api/cotizacion/${id}`);
+    // const { data, error } = await useFetch(`/api/cotizacion/${id}`);
 
-      currentInvoice.value = data.value as InvoiceWithItems;
+    currentInvoice.value = data.value;
 
-      if (error) throw error;
-    } catch (error) {
-      console.log(error);
-    }
+    // async function getCurrentInvoice(id: string) {
+    //   const data = await useFetchWithCache<InvoiceWithItems>(`/api/cotizacion/${id}`);
+
+    //   currentInvoice.value = data.value as InvoiceWithItems;
+    // }
   }
-  // async function getCurrentInvoice(id: string) {
-  //   const data = await useFetchWithCache<InvoiceWithItems>(`/api/cotizacion/${id}`);
-
-  //   currentInvoice.value = data.value as InvoiceWithItems;
-  // }
 
   if (id) {
     await getCurrentInvoice(id as string);
@@ -29,7 +25,7 @@ export const useInvoice = async (id?: string) => {
 
   // - Create new invoice
   const { getInvoices } = await useInvoices();
-  async function newInvoice(invoice: InvoiceDraft) {
+  async function newInvoice(invoice: InvoiceDraft | InvoiceWithItems) {
     isLoading.value = true;
     sessionStorage.removeItem('/api/invoices');
     // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
@@ -106,7 +102,7 @@ export const useInvoice = async (id?: string) => {
   }
 
   // Update invoice status
-  async function updateStatusOnDb(invoice: InvoiceDraft | null | undefined) {
+  async function updateStatusOnDb(invoice: InvoiceDraft | null | undefined | InvoiceWithItems) {
     // sessionStorage.setItem(`/api/cotizacion/${invoice?.invId}`, JSON.stringify(invoice));
     // sessionStorage.setItem('/api/invoices', JSON.stringify(null));
     // sessionStorage.removeItem(`/api/cotizacion/${invoice?.invId}`);

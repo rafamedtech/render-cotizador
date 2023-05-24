@@ -1,9 +1,19 @@
 import { defineStore } from 'pinia';
+// import sessionStorage from '@vueuse/nuxt'
 
 import type Contact from '@/types/contact';
-import type { InvoiceOutline } from '@/types/invoice';
+import type { InvoiceOutline, InvoiceDraft } from '@/types/invoice';
+import { uid } from 'uid';
 
 export const useStore = defineStore('main', () => {
+  // const { invoices } = await useInvoices();
+  // const invoices = sessionStorage.getItem('/api/invoices');
+  const dateOptions: Intl.DateTimeFormatOptions = {
+    year: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  };
+
   const isLoading = ref(false);
   const isLoadingFull = ref(true);
 

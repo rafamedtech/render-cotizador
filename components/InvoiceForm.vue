@@ -9,7 +9,7 @@ import { uid } from 'uid';
 
 // Type imports
 import type Contact from '@/types/contact';
-import { InvoiceDraft } from '@/types/invoice';
+import { InvoiceDraft, InvoiceItems } from '@/types/invoice';
 import { Modal } from '@/types/modal';
 
 interface Props {
@@ -22,6 +22,7 @@ const props = withDefaults(defineProps<Props>(), {
 const store = useStore();
 const router = useRouter();
 const { invoices } = await useInvoices();
+// const invoiceObject = store.invoiceObject;
 
 const { params } = useRoute();
 const { id }: any = params;
@@ -77,14 +78,14 @@ if (props.edit) {
     invoiceObject.notes = currentInvoice.value?.notes;
     invoiceObject.paymentDueDate = currentInvoice.value?.paymentDueDate;
     invoiceObject.paymentType = currentInvoice.value?.paymentType;
-    invoiceObject.invoiceItems = currentInvoice.value?.invoiceItems;
+    invoiceObject.invoiceItems = currentInvoice.value?.invoiceItems as InvoiceItems[];
     invoiceObject.status = currentInvoice.value?.status;
   }
 }
 
 // Saved contacts menu
 const contactsModal = ref(false);
-const { contactData, backBtn, isLoading, filterResults, descriptionModal } = storeToRefs(store);
+const { contactData, backBtn, isLoading, modalType, filterResults } = storeToRefs(store);
 const filteredContacts = ref<Contact[]>([]);
 const uniqueContacts = ref(
   Array.from(new Set(contactData.value.map((a) => a.clientCompany))).map((clientCompany) => {
@@ -208,8 +209,6 @@ function toggleModal() {
   backBtn.value?.click();
 }
 
-const errorBorder = computed(() => (v$.value.date.$error ? colors.red[500] : colors.gray[300]));
-
 async function uploadInvoice() {
   const { newInvoice } = await useInvoice();
   await newInvoice({
@@ -233,8 +232,8 @@ async function onSubmit() {
         invoiceTax: invoiceTax.value,
         invoiceTotal: invoiceTotal.value,
       });
-      router.back();
-      return;
+      // router.back();
+      return navigateTo(`/cotizacion/${invoiceObject.invId}`);
     }
 
     await uploadInvoice();
@@ -246,9 +245,10 @@ async function onSubmit() {
 }
 
 function discardInvoice() {
-  store.$patch({
-    modalType: Modal.Discard,
-  });
+  modalType.value = Modal.Discard;
+  // store.$patch({
+  //   modalType: Modal.Discard,
+  // });
   backBtn.value?.click();
 }
 </script>
@@ -362,33 +362,6 @@ function discardInvoice() {
                 </ul>
               </div>
             </div>
-
-            <!-- <div class="w-full">
-              <ul
-                v-if="statusModal"
-                class="dropdown-content menu min-h-12 mt-2 flex max-h-[250px] w-fit rounded-lg border border-light-strong bg-white shadow-lg transition-all dark:border dark:border-dark-strong dark:bg-dark-strong dark:text-light-strong"
-              >
-                <li
-                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
-                >
-                  <button type="button" @click="changeStatus('Borrador')">
-                    <Icon
-                      name="ri:draft-line"
-                      class="text-base text-dark-medium dark:text-light-medium"
-                    />
-                    Borrador
-                  </button>
-                </li>
-                <li
-                  class="cursor-pointer text-dark-medium hover:text-primary dark:text-light-medium dark:hover:text-dark-primary"
-                >
-                  <button type="button" @click="changeStatus('Pendiente')">
-                    <Icon name="icon-park-outline:caution" class="text-base text-orange-500" />
-                    Pendiente
-                  </button>
-                </li>
-              </ul>
-            </div> -->
           </div>
         </div>
 
@@ -576,11 +549,11 @@ function discardInvoice() {
                   <td class="relative w-4/12">
                     <div class="form-control relative">
                       <input
-                        class="input w-full bg-light-medium pr-20 focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
+                        class="input w-full overflow-y-hidden bg-light-medium pr-20 focus:ring-primary dark:bg-dark-medium dark:text-light-strong"
                         type="text"
-                        v-model.trim="item.itemDescription"
                         placeholder="Escribe aqui..."
                         :style="{ paddingRight: '2rem' }"
+                        v-model="item.itemDescription"
                       />
                       <label
                         for="my-modal-3"
@@ -601,9 +574,9 @@ function discardInvoice() {
                             Descripción del artículo
                           </h3>
                           <textarea
-                            v-model.trim="item.itemDescription"
                             placeholder="Escribe aqui..."
                             class="input h-32 min-h-[4rem] w-full rounded-[12px] bg-light-medium py-4"
+                            v-model.trim="item.itemDescription"
                           >
                           </textarea>
                         </div>

@@ -2,14 +2,15 @@
 // Imports
 import emailjs from '@emailjs/browser';
 import { Modal } from '@/types/modal';
-import type { InvoiceWithItems, InvoiceItems } from '@/types/invoice';
+import type { InvoiceWithItems, InvoiceItems, InvoiceDraft } from '@/types/invoice';
 
 // Definitions
 const { params } = useRoute();
 const store = useStore();
 
 const { id }: any = params;
-const { updateStatusOnDb } = await useInvoice();
+const { newInvoice, updateStatusOnDb } = await useInvoice();
+const { invoices } = await useInvoices();
 // const { currentInvoice, updateStatusOnDb } = await useInvoice(id);
 const currentInvoice = ref<InvoiceWithItems | null>(null);
 
@@ -22,12 +23,10 @@ const user = useSupabaseUser();
 const swipeAnimation = ref(false);
 
 onMounted(async () => {
-  // const { params } = useRoute();
-  // const { id }: any = params;
   const { currentInvoice: invoiceCurrent, getCurrentInvoice } = await useInvoice(id);
   await getCurrentInvoice(id);
   currentInvoice.value = invoiceCurrent.value as InvoiceWithItems;
-  invoiceItemList.value = currentInvoice.value?.invoiceItems;
+  invoiceItemList.value = currentInvoice.value?.invoiceItems as InvoiceItems[];
   isLoadingFull.value = false;
   swipeAnimation.value = true;
 });
@@ -40,13 +39,43 @@ function toggleModal() {
   backBtn.value?.click();
 }
 
-function deleteInvoice() {
-  store.$patch({ modalType: Modal.Delete });
-  toggleModal();
+const lastInvoice = invoices.value ? invoices.value?.length + 393 : 0;
+async function duplicateInvoice() {
+  isLoadingFull.value = true;
+  currentInvoice.value?.invoiceItems.forEach((item) => {
+    delete item.id;
+    delete item.invoiceId;
+  });
+  const newId = lastInvoice + 1;
+
+  delete currentInvoice.value.id;
+  delete currentInvoice.value.createdAt;
+
+  // console.log(currentInvoice.value?.invoiceItems);
+
+  await newInvoice({
+    ...currentInvoice.value,
+    invId: newId.toString(),
+    invoiceDate: new Date().toLocaleString('es-MX', dateOptions),
+    status: 'Borrador',
+    invoiceItems: currentInvoice.value?.invoiceItems,
+  } as InvoiceDraft);
+
+  setTimeout(() => {
+    isLoadingFull.value = false;
+  }, 3000);
+
+  await navigateTo(`/cotizacion/${newId.toString()}/editar`);
 }
 
+// async function deleteInvoice() {
+//   await store.$patch({ modalType: Modal.Delete }) as any;
+//   toggleModal();
+// }
+
 function generatePDF() {
-  store.$patch({ modalType: Modal.Pdf });
+  // store.$patch({ modalType: Modal.Pdf });
+  modalType.value = Modal.Pdf;
   toggleModal();
 }
 
@@ -77,9 +106,10 @@ async function sendEmail() {
   }
   setTimeout(() => {
     isLoading.value = false;
-    store.$patch({
-      modalType: Modal.Email,
-    });
+    modalType.value = Modal.Email;
+    // store.$patch({
+    //   modalType: Modal.Email,
+    // });
     toggleModal();
   }, 1000);
 }
@@ -208,25 +238,39 @@ useHead({
             <!-- @click="toggleEditInvoice" -->
             <Icon
               name="icon-park-outline:edit"
-              class="text-xl text-dark-medium dark:text-light-strong"
+              class="text-xl text-secondary dark:text-dark-secondary"
             />
             <span class="text-dark-medium dark:text-light-strong">Editar</span>
           </NuxtLink>
           <label ref="backBtn" for="my-modal-6" class="hidden"></label>
           <button
+            @click="duplicateInvoice"
+            class="flex w-16 flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:hover:border-primary/50 lg:text-[10px]"
+          >
+            <Icon
+              class="text-xl text-secondary dark:text-dark-secondary"
+              name="material-symbols:content-copy-outline-rounded"
+            />
+
+            <span class="text-dark-medium dark:text-light-strong">Duplicar</span>
+          </button>
+          <!-- <button
             @click="deleteInvoice"
             class="flex w-16 flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:hover:border-primary/50 lg:text-[10px]"
           >
             <Icon class="text-xl text-primary" name="icon-park-outline:delete" />
 
             <span class="text-dark-medium dark:text-light-strong">Eliminar</span>
-          </button>
+          </button> -->
 
           <button
             @click="generatePDF"
             class="flex w-16 flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:hover:border-primary/50 lg:text-[10px]"
           >
-            <Icon name="icon-park-outline:doc-detail" class="text-xl" />
+            <Icon
+              name="icon-park-outline:doc-detail"
+              class="text-xl text-secondary dark:text-dark-secondary"
+            />
             PDF
           </button>
           <button
@@ -234,7 +278,10 @@ useHead({
             @click="sendEmail"
           >
             <!-- <LoadingSpinner v-if="isLoading && modalType === Modal.Email" /> -->
-            <Icon name="icon-park-outline:envelope-one" class="text-xl text-blue-500" />
+            <Icon
+              name="icon-park-outline:envelope-one"
+              class="text-xl text-secondary dark:text-dark-secondary"
+            />
             Enviar
             <!-- <div v-else>
             </div> -->

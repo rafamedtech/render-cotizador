@@ -1,6 +1,12 @@
 <script lang="ts" setup>
 import { Modal } from '@/types/modal';
 
+const dateOptions: Intl.DateTimeFormatOptions = {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+};
+
 const store = useStore();
 
 const { backBtn, isLoadingFull } = storeToRefs(store);
@@ -8,6 +14,7 @@ const { backBtn, isLoadingFull } = storeToRefs(store);
 onBeforeMount(() => {
   isLoadingFull.value = false;
 });
+
 function discardInvoice() {
   store.$patch({
     modalType: Modal.Discard,

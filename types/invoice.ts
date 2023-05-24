@@ -41,7 +41,7 @@ export interface InvoiceDraft {
 export interface InvoiceItems {
   itemId: string;
   itemName: string | null;
-  itemDescription?: string | null;
+  itemDescription?: string | string[] | number;
   condition: string;
   qty: number;
   partNo: string | null;

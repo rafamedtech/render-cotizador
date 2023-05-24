@@ -3,6 +3,7 @@ export default defineNuxtConfig({
   css: ['@/assets/css/tailwind.css'],
   app: {
     head: {
+      title: 'Render Cotizador',
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1.0',
     },

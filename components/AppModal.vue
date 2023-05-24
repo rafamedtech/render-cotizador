@@ -1,5 +1,8 @@
 <script lang="ts" setup>
+import { uid } from 'uid';
 import { Modal } from '@/types/modal';
+
+const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
 const store = useStore();
 const { modalType, backBtn, isLoading } = storeToRefs(store);
@@ -32,7 +35,7 @@ const { deleteInvoiceOnDb } = await useInvoice();
 function toggleModal() {
   backBtn.value?.click();
   setTimeout(() => {
-    const html: HTMLHtmlElement | null = document.querySelector('html');
+    const html: HTMLElement | null = document.querySelector('html');
     if (html) html.style.overflowY = 'scroll';
   }, 100);
 }
