@@ -289,7 +289,6 @@ function discardInvoice() {
                 type="text"
                 placeholder="Escribe aqui..."
                 class="input-primary input w-full bg-light-medium capitalize disabled:border-light-strong disabled:bg-light-medium dark:disabled:border-dark-medium dark:disabled:bg-dark-medium"
-                :disabled="edit"
               />
               <Icon
                 v-if="invoiceObject.clientCompany && !edit"
