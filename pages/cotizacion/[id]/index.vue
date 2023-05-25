@@ -39,14 +39,20 @@ function toggleModal() {
   backBtn.value?.click();
 }
 
-const lastInvoice = invoices.value ? invoices.value?.length + 393 : 0;
+const lastInvoice = invoices.value[0];
+const lastInvoiceId = lastInvoice.invId;
+
+// function duplicateInvoice() {
+//   // const lastInvoice = invoices.value[0];
+//   console.log((parseInt(lastInvoiceId) + 1).toString());
+// }
 async function duplicateInvoice() {
   isLoadingFull.value = true;
   currentInvoice.value?.invoiceItems.forEach((item) => {
     delete item.id;
     delete item.invoiceId;
   });
-  const newId = lastInvoice + 1;
+  const newId = parseInt(lastInvoiceId) + 1;
 
   delete currentInvoice.value.id;
   delete currentInvoice.value.createdAt;
@@ -68,10 +74,11 @@ async function duplicateInvoice() {
   await navigateTo(`/cotizacion/${newId.toString()}/editar`);
 }
 
-// async function deleteInvoice() {
-//   await store.$patch({ modalType: Modal.Delete }) as any;
-//   toggleModal();
-// }
+async function deleteInvoice() {
+  // (await store.$patch({ modalType: Modal.Delete })) as any;
+  modalType.value = Modal.Delete;
+  toggleModal();
+}
 
 function generatePDF() {
   // store.$patch({ modalType: Modal.Pdf });
@@ -254,14 +261,17 @@ useHead({
 
             <span class="text-dark-medium dark:text-light-strong">Duplicar</span>
           </button>
-          <!-- <button
+          <button
             @click="deleteInvoice"
             class="flex w-16 flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:hover:border-primary/50 lg:text-[10px]"
           >
-            <Icon class="text-xl text-primary" name="icon-park-outline:delete" />
+            <Icon
+              class="text-xl text-secondary dark:text-dark-secondary"
+              name="icon-park-outline:delete"
+            />
 
             <span class="text-dark-medium dark:text-light-strong">Eliminar</span>
-          </button> -->
+          </button>
 
           <button
             @click="generatePDF"

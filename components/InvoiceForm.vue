@@ -33,8 +33,14 @@ const invoiceTitle = computed(() => {
 
 const dateOptions: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'short', day: 'numeric' };
 
+const lastInvoice = ref(invoices.value[0]);
+const lastInvoiceId = lastInvoice.value.invId as number;
+const newId = computed(() => {
+  return Number(lastInvoiceId) + 1;
+});
+
 const invoiceObject = reactive<InvoiceDraft>({
-  invId: invoices.value ? (invoices.value?.length + 394).toString() : '0',
+  invId: newId.value.toString(),
   clientCompany: '',
   clientName: '',
   clientName2: '',
