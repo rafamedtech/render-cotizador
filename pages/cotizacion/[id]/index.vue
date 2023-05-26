@@ -26,7 +26,7 @@ onMounted(async () => {
   const { currentInvoice: invoiceCurrent, getCurrentInvoice } = await useInvoice(id);
   await getCurrentInvoice(id);
   currentInvoice.value = invoiceCurrent.value as InvoiceWithItems;
-  invoiceItemList.value = currentInvoice.value?.invoiceItems as InvoiceItems[];
+  // invoiceItemList.value = currentInvoice.value?.invoiceItems as InvoiceItems[];
   isLoadingFull.value = false;
   swipeAnimation.value = true;
 });
@@ -39,33 +39,35 @@ function toggleModal() {
   backBtn.value?.click();
 }
 
-const lastInvoice = invoices.value[0];
-const lastInvoiceId = lastInvoice.invId;
+const lastInvoice = invoices.value?.[0];
+const lastInvoiceId = lastInvoice?.invId;
 
-// function duplicateInvoice() {
-//   // const lastInvoice = invoices.value[0];
-//   console.log((parseInt(lastInvoiceId) + 1).toString());
-// }
 async function duplicateInvoice() {
   isLoadingFull.value = true;
-  currentInvoice.value?.invoiceItems.forEach((item) => {
-    delete item.id;
-    delete item.invoiceId;
-  });
-  const newId = parseInt(lastInvoiceId) + 1;
 
-  delete currentInvoice.value.id;
-  delete currentInvoice.value.createdAt;
-
-  // console.log(currentInvoice.value?.invoiceItems);
-
-  await newInvoice({
-    ...currentInvoice.value,
+  const newId = Number(lastInvoiceId) + 1;
+  const duplicatedInvoice = reactive({
     invId: newId.toString(),
+    clientCompany: currentInvoice.value?.clientCompany,
+    clientName: currentInvoice.value?.clientName,
+    clientName2: currentInvoice.value?.clientName2,
+    clientEmail: currentInvoice.value?.clientEmail,
+    clientEmail2: currentInvoice.value?.clientEmail2,
+    currencyType: currentInvoice.value?.currencyType,
+    exchangeCost: currentInvoice.value?.exchangeCost,
+    eta: currentInvoice.value?.eta,
+    notes: currentInvoice.value?.notes,
     invoiceDate: new Date().toLocaleString('es-MX', dateOptions),
+    paymentDueDate: currentInvoice.value?.paymentDueDate,
+    paymentType: currentInvoice.value?.paymentType,
+    invoiceItems: currentInvoice.value?.invoiceItems.map(({ id, invoiceId, ...item }) => item),
     status: 'Borrador',
-    invoiceItems: currentInvoice.value?.invoiceItems,
-  } as InvoiceDraft);
+    invoiceSubtotal: currentInvoice.value?.invoiceSubtotal,
+    invoiceTax: currentInvoice.value?.invoiceTax,
+    invoiceTotal: currentInvoice.value?.invoiceTotal,
+  });
+
+  await newInvoice(duplicatedInvoice as InvoiceDraft);
 
   setTimeout(() => {
     isLoadingFull.value = false;
@@ -75,51 +77,55 @@ async function duplicateInvoice() {
 }
 
 async function deleteInvoice() {
-  // (await store.$patch({ modalType: Modal.Delete })) as any;
   modalType.value = Modal.Delete;
   toggleModal();
 }
 
 function generatePDF() {
-  // store.$patch({ modalType: Modal.Pdf });
   modalType.value = Modal.Pdf;
   toggleModal();
 }
 
-async function sendEmail() {
-  isLoading.value = true;
+// async function sendEmail() {
+//   isLoading.value = true;
 
-  try {
-    const response = await emailjs.send(
-      'service_iao05ok',
-      'template_u9jm6y3',
-      {
-        customer_name: currentInvoice.value?.clientName.split(' ')[0],
-        customer_name2: currentInvoice.value?.clientName2
-          ? `/${currentInvoice.value?.clientName2.split(' ')[0]}`
-          : '',
-        customer_email: currentInvoice.value?.clientEmail,
-        customer_email2: currentInvoice.value?.clientEmail2,
-        message: location.toString(),
-      },
-      'QyWKNAO42Ukv7v_0T'
-    );
+//   try {
+//     const response = await emailjs.send(
+//       'service_iao05ok',
+//       'template_u9jm6y3',
+//       {
+//         customer_name: currentInvoice.value?.clientName.split(' ')[0],
+//         customer_name2: currentInvoice.value?.clientName2
+//           ? `/${currentInvoice.value?.clientName2.split(' ')[0]}`
+//           : '',
+//         customer_email: currentInvoice.value?.clientEmail,
+//         customer_email2: currentInvoice.value?.clientEmail2,
+//         message: location.toString(),
+//       },
+//       'QyWKNAO42Ukv7v_0T'
+//     );
 
-    console.log(response.status);
+//     console.log(response.status);
 
-    if (response.status !== 200) throw response;
-  } catch (error: any) {
-    console.error(error.text);
-  }
-  setTimeout(() => {
-    isLoading.value = false;
-    modalType.value = Modal.Email;
-    // store.$patch({
-    //   modalType: Modal.Email,
-    // });
-    toggleModal();
-  }, 1000);
-}
+//     if (response.status !== 200) throw response;
+//   } catch (error: any) {
+//     console.error(error.text);
+//   }
+//   setTimeout(() => {
+//     isLoading.value = false;
+//     modalType.value = Modal.Email;
+//     toggleModal();
+//   }, 1000);
+// }
+
+const subject = 'Tienes una cotización de Render';
+const message = computed(
+  () => `Puedes ver tu cotización en el siguiente enlace --> ${window.location}`
+);
+const sendEmail = computed(
+  () =>
+    `mailto:${currentInvoice.value?.clientEmail}?subject=${subject}&body=${message.value}&cc=${currentInvoice.value?.clientEmail2}`
+);
 
 const statusModal = ref(false);
 
@@ -138,8 +144,6 @@ async function changeStatus(status: string) {
   statusModal.value = false;
   await updateStatusOnDb(currentInvoice.value);
 }
-
-// const invoiceBtn = ref<HTMLInputElement | null>(null);
 
 useHead({
   title: `Cotización #${id} | Render Cotizador`,
@@ -183,13 +187,13 @@ useHead({
       </NuxtLink>
       <!-- Header -->
       <div
-        class="header rounded-box flex flex-col gap-4 border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong lg:flex-row"
+        class="header rounded-box flex flex-row justify-between gap-4 border border-light-strong bg-white dark:border-dark-medium dark:bg-dark-strong lg:flex-row"
       >
         <div class="form-control mb-4 h-full w-fit items-end">
           <label class="label w-full text-center">
             <span class="label-text text-dark-strong dark:text-light-medium">Etapa</span>
           </label>
-          <div class="flex">
+          <div class="flex- flex">
             <StatusButton :status="currentInvoice.status" @@modal="changeStatusModal" />
             <div class="dropdown-end dropdown relative w-8">
               <label tabindex="0" class="cursor-pointer">
@@ -236,7 +240,97 @@ useHead({
         </div>
 
         <!-- Status bar -->
-        <div class="right flex items-center justify-center gap-3">
+
+        <div class="dropdown-end dropdown lg:hidden">
+          <label tabindex="0" class="m-1"
+            ><Icon
+              name="material-symbols:menu"
+              size="32"
+              class="text-secondary dark:text-dark-secondary"
+          /></label>
+          <ul
+            tabindex="0"
+            class="dropdown-content menu rounded-box w-52 bg-white p-2 shadow dark:bg-dark-strong"
+          >
+            <li>
+              <NuxtLink
+                v-if="currentInvoice.status === 'Borrador' || currentInvoice.status === 'Pendiente'"
+                :to="`/cotizacion/${currentInvoice.invId}/editar`"
+                class="flex flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:hover:border-primary/50 lg:text-[10px]"
+              >
+                <Icon
+                  name="icon-park-outline:edit"
+                  class="text-xl text-secondary dark:text-dark-secondary"
+                />
+                <span class="text-dark-medium dark:text-light-strong">Editar</span>
+              </NuxtLink>
+            </li>
+            <li>
+              <button
+                @click="duplicateInvoice"
+                class="flex flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:hover:border-primary/50 lg:text-[10px]"
+              >
+                <Icon
+                  class="text-xl text-secondary dark:text-dark-secondary"
+                  name="material-symbols:content-copy-outline-rounded"
+                />
+
+                <span class="text-dark-medium dark:text-light-strong">Duplicar</span>
+              </button>
+            </li>
+
+            <li>
+              <button
+                @click="deleteInvoice"
+                class="flex flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:hover:border-primary/50 lg:text-[10px]"
+              >
+                <Icon
+                  class="text-xl text-secondary dark:text-dark-secondary"
+                  name="icon-park-outline:delete"
+                />
+
+                <span class="text-dark-medium dark:text-light-strong">Eliminar</span>
+              </button>
+            </li>
+
+            <li>
+              <button
+                @click="generatePDF"
+                class="flex flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:hover:border-primary/50 lg:text-[10px]"
+              >
+                <Icon
+                  name="icon-park-outline:doc-detail"
+                  class="text-xl text-secondary dark:text-dark-secondary"
+                />
+                PDF
+              </button>
+            </li>
+            <li>
+              <NuxtLink
+                class="flex flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:hover:border-primary/50 lg:text-[10px]"
+                :to="sendEmail"
+                target="_blank"
+              >
+                <Icon
+                  name="icon-park-outline:envelope-one"
+                  class="text-xl text-secondary dark:text-dark-secondary"
+                />
+                Enviar
+              </NuxtLink>
+              <!-- <button
+                class="flex flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:hover:border-primary/50 lg:text-[10px]"
+                @click="sendEmail"
+              >
+                <Icon
+                  name="icon-park-outline:envelope-one"
+                  class="text-xl text-secondary dark:text-dark-secondary"
+                />
+                Enviar
+              </button> -->
+            </li>
+          </ul>
+        </div>
+        <div class="right hidden items-center justify-center gap-3 lg:flex">
           <NuxtLink
             v-if="currentInvoice.status === 'Borrador' || currentInvoice.status === 'Pendiente'"
             :to="`/cotizacion/${currentInvoice.invId}/editar`"
@@ -283,19 +377,17 @@ useHead({
             />
             PDF
           </button>
-          <button
+          <NuxtLink
             class="flex w-16 flex-col items-center justify-center gap-1 rounded-lg border border-light-strong bg-light-medium p-4 text-xs text-dark-medium transition-all hover:border-primary dark:border-dark-strong dark:bg-dark-medium dark:text-light-strong dark:hover:border-primary/50 lg:text-[10px]"
-            @click="sendEmail"
+            :to="sendEmail"
+            target="_blank"
           >
-            <!-- <LoadingSpinner v-if="isLoading && modalType === Modal.Email" /> -->
             <Icon
               name="icon-park-outline:envelope-one"
               class="text-xl text-secondary dark:text-dark-secondary"
             />
             Enviar
-            <!-- <div v-else>
-            </div> -->
-          </button>
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -479,7 +571,7 @@ useHead({
 
         <div
           class="flex w-[150vw] justify-between gap-2 px-4 text-[10px] print:w-full lg:w-full lg:justify-between lg:gap-2 lg:px-8"
-          v-for="(item, index) in invoiceItemList"
+          v-for="(item, index) in currentInvoice?.invoiceItems"
           :key="index"
         >
           <div class="w-72 print:w-7/12 lg:basis-5/12">
@@ -545,9 +637,13 @@ useHead({
           <Icon name="material-symbols:arrow-forward-rounded" size="32" class="animate-ping" />
         </section>
         <div
-          class="carousel-center carousel rounded-box max-w-md space-x-4 bg-light-strong p-4 dark:bg-dark-strong"
+          class="carousel-center carousel rounded-box min-w-full max-w-md space-x-4 bg-light-strong p-4 dark:bg-dark-strong"
         >
-          <div class="carousel-item" v-for="(item, index) in invoiceItemList" :key="index">
+          <div
+            class="carousel-item"
+            v-for="(item, index) in currentInvoice?.invoiceItems"
+            :key="index"
+          >
             <div class="card bg-base-100 shadow-xl dark:bg-dark-medium">
               <div class="card-body text-xs">
                 <h2 class="card-title w-52 text-[16px] text-dark-medium dark:text-light-medium">
@@ -732,7 +828,7 @@ useHead({
 }
 
 .custom-container {
-  @apply print:m-0 print:min-h-full print:p-0;
+  @apply print:m-0 print:min-h-full print:p-0 md:pt-0 lg:pt-[70px];
 }
 
 .pdf {

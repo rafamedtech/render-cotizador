@@ -8,8 +8,33 @@ export default defineEventHandler(async (event) => {
 
   assertMethod(event, ['PUT']);
 
-  // Update invoice with prisma
+  const items = await prisma.invoiceItem.deleteMany({
+    where: {
+      invoiceId: invoice.id,
+    },
+  });
 
+  //  invoiceItems: {
+  //       create: invoice.invoiceItems.filter((item: InvoiceItem) => !item.id),
+  //       // create new invoice items if there are any
+  //       // update existing invoice items
+  //       update: invoice.invoiceItems
+  //         .filter((item: InvoiceItem) => item.id)
+  //         .map((item: InvoiceItem) => ({
+  //           where: { id: item.id },
+  //           data: {
+  //             itemId: item.itemId,
+  //             itemName: item.itemName,
+  //             condition: item.condition,
+  //             qty: item.qty,
+  //             partNo: item.partNo,
+  //             price: item.price,
+  //             total: item.total,
+  //           },
+  //         })),
+  //     },
+
+  // Update invoice with prisma
   const updatedInvoice = await prisma.invoice.update({
     where: { id: invoice.id },
     data: {
@@ -24,23 +49,7 @@ export default defineEventHandler(async (event) => {
       paymentType: invoice.paymentType,
       notes: invoice.notes,
       invoiceItems: {
-        // create new invoice items if there are any
-        create: invoice.invoiceItems.filter((item: InvoiceItem) => !item.id),
-        // update existing invoice items
-        update: invoice.invoiceItems
-          .filter((item: InvoiceItem) => item.id)
-          .map((item: InvoiceItem) => ({
-            where: { id: item.id },
-            data: {
-              itemId: item.itemId,
-              itemName: item.itemName,
-              condition: item.condition,
-              qty: item.qty,
-              partNo: item.partNo,
-              price: item.price,
-              total: item.total,
-            },
-          })),
+        create: invoice.invoiceItems.map(({ id, invoiceId, ...item }) => item),
       },
       invoiceTax: invoice.invoiceTax,
       invoiceSubtotal: invoice.invoiceSubtotal,
