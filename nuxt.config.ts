@@ -27,6 +27,10 @@ export default defineNuxtConfig({
     dirs: ['stores'],
   },
 
+  supabase: {
+    redirect: false,
+  },
+
   pwa: {
     manifest: {
       name: 'Cotizador',
